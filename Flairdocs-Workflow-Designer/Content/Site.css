@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
     background-color: #e0e0e0;
 }
@@ -16,6 +15,14 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+#flairdocs-banner {
+    margin-top: 0px;
+    background-color: #5697ff;
+    width: 100%;
+    display: block;
+    padding: 13px;
 }
 
 #workflow-designer-top-wrapper{
