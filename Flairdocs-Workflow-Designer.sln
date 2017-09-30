@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flairdocs-Workflow-Designer", "Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer.csproj", "{B735A4F2-4E3F-4224-AC23-D3F102AB2D86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flairdocs-Workflow-Designer.Tests", "Flairdocs-Workflow-Designer.Tests\Flairdocs-Workflow-Designer.Tests.csproj", "{7F293FBF-0852-4C49-877C-968D34F552DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B735A4F2-4E3F-4224-AC23-D3F102AB2D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B735A4F2-4E3F-4224-AC23-D3F102AB2D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B735A4F2-4E3F-4224-AC23-D3F102AB2D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B735A4F2-4E3F-4224-AC23-D3F102AB2D86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F293FBF-0852-4C49-877C-968D34F552DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F293FBF-0852-4C49-877C-968D34F552DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F293FBF-0852-4C49-877C-968D34F552DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F293FBF-0852-4C49-877C-968D34F552DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F195DF8D-29CA-46DB-8BF7-47D5DEE06EFA}
+	EndGlobalSection
+EndGlobal
