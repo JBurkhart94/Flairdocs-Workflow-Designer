@@ -163,6 +163,7 @@ textarea {
     }
 
 #add-step-button {
+    cursor: pointer;
     font-size: 50px;
     color: #cccccc;
     margin-top: 120px;
