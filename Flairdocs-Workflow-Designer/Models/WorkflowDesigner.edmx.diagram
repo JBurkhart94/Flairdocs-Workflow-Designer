@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3b5f7ed7741e4ad09c6ce417b2a6a20a" Name="Diagram1" ShowGrid="false" >
+        <EntityTypeShape EntityType="Model1.Workflow" Width="1.5" PointX="3.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Step" Width="1.5" PointX="6.625" PointY="0.5" />
+        <EntityTypeShape EntityType="Model1.Reviewer" Width="1.5" PointX="9.25" PointY="0.5" />
+        <AssociationConnector Association="Model1.WorkflowStep" />
+        <EntityTypeShape EntityType="Model1.AuditLog" Width="1.5" PointX="3.875" PointY="3.375" IsExpanded="true" />
+        <AssociationConnector Association="Model1.WorkflowAuditLog" />
+        <EntityTypeShape EntityType="Model1.Transition" Width="1.5" PointX="6.625" PointY="2.75" />
+        <AssociationConnector Association="Model1.WorkflowTransition" />
+        <EntityTypeShape EntityType="Model1.Attribute" Width="1.5" PointX="9.25" PointY="3.125" />
+        <AssociationConnector Association="Model1.ReviewerAttribute" />
+        <AssociationConnector Association="Model1.StepReviewer" />
+        <EntityTypeShape EntityType="Model1.Audit" Width="1.5" PointX="3.875" PointY="5.375" />
+        <AssociationConnector Association="Model1.AuditLogAudit" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
