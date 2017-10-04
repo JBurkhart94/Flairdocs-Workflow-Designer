@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="Workflows">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Workflow)">
+        <MappingFragment StoreEntitySet="Workflows">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Steps">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Step)">
+        <MappingFragment StoreEntitySet="Steps">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reviewers">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Reviewer)">
+        <MappingFragment StoreEntitySet="Reviewers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AuditLogs">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.AuditLog)">
+        <MappingFragment StoreEntitySet="AuditLogs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transitions">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Transition)">
+        <MappingFragment StoreEntitySet="Transitions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Conditions" ColumnName="Conditions" />
+          <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="WorkflowAuditLog" TypeName="Model1.WorkflowAuditLog" StoreEntitySet="Workflows">
+      <EndProperty Name="AuditLog">
+        <ScalarProperty Name="Id" ColumnName="AuditLog_Id" />
+      </EndProperty>
+      <EndProperty Name="Workflow">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,6 +1,6 @@
 ﻿body {
     padding-bottom: 20px;
-    background-color: #e0e0e0;
+    background-color: #f2f2f2;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -25,7 +25,7 @@ textarea {
     padding: 13px;
 }
 
-#workflow-designer-top-wrapper{
+#workflow-designer-top-wrapper {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -44,20 +44,52 @@ textarea {
     min-width: 200px;
     height: 100%;
     min-height: 450px;
-    border: 1px solid black;
+    border: 1px solid #333;
 }
     /*
         These are buttons within the workflow-designer-menu div
     */
     #workflow-designer-menu button {
-        width: 195px;
+        width: 190px;
+        padding: 10px;
         border: none;
-        padding: 14px;
+        margin-top: 2px;
+        margin-left: auto;
+        margin-right: auto;
         display: block;
         color: black;
         text-align: left;
-        background-color: #e0e0e0;
+        background-color: #f2f2f2;
+        outline: none;
     }
+
+        #workflow-designer-menu button:hover {
+            background-color: #e0e0e0;
+        }
+
+        #workflow-designer-menu button:active {
+            background: #bababa;
+            padding: 10px;
+        }
+
+    #workflow-designer-menu input:focus {
+        border: none;
+    }
+
+    #workflow-designer-menu input {
+        box-shadow: inset 0px 0px 3px 0px #333;
+        width: 190px;
+        border: none;
+        padding: 10px;
+        margin: 8px auto;
+        display: block;
+        text-align: left;
+        background-color: white;
+    }
+
+        #workflow-designer-menu input:focus {
+            outline-style: none;
+        }
 
 #workflow-designer-window {
     order: 1;
@@ -65,75 +97,94 @@ textarea {
     min-width: 700px;
     min-height: 450px;
     height: 100%;
-    border: 1px solid black;
+    border: 1px solid #333;
     margin-left: 12px;
 }
-    /*
+/*
         Elements below are children of the workflow-designer-window
     */
-    #workflow-designer-window-buttons{
-        width: 100%;
-        height: 50px;
-    }
-        /*
+#workflow-designer-window-buttons {
+    width: 100%;
+    height: 50px;
+}
+/*
             These are button elements within the workflow-designer-window-buttons div
         */
-        #add-reviewer-button {
-            border: none;
-            padding: 14px;
-            background-color: #5697ff;
-            color: white;
-            margin-top: 5px;
-            margin-left: 5px;
-            border-radius: 14px;
-            text-align: center;
-        }
+#add-reviewer-button {
+    border: none;
+    padding: 14px;
+    background-color: #5697ff;
+    color: white;
+    margin-top: 5px;
+    margin-left: 5px;
+    border-radius: 14px;
+    text-align: center;
+}
 
-        #add-reviewer-button:hover {
-            cursor: move;
-        }
-
-        #save-workflow-button {
-            float: right;
-            border: none;
-            padding: 14px;
-            background-color: #5697ff;
-            color: white;
-            margin-top: 5px;
-            margin-right: 5px;
-            border-radius: 14px;
-            text-align: center;
-        }
-
-    #workflow-designer-window-edit {
-        margin-top: 10px;
-        padding: 2px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        max-width: 99%;
-        max-height: 85%;
-        overflow: scroll;
+    #add-reviewer-button:hover {
+        cursor: move;
     }
-        
-        /*
+
+#save-workflow-button {
+    float: right;
+    border: none;
+    padding: 14px;
+    background-color: #5697ff;
+    color: white;
+    margin-top: 5px;
+    margin-right: 5px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+#workflow-designer-window-edit {
+    margin-top: 10px;
+    padding: 2px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    max-width: 99%;
+    max-height: 85%;
+    overflow: scroll;
+}
+
+    /*
             Elements contained within workflow-designer-window-edit
         */
-        #workflow-designer-window-edit .workflow-step {
-            width: 300px;
-            min-width: 300px;
-            min-height: 300px;
-            border: 1px solid black;
-            margin-left: 30px;
-            margin-top: 15px;
-            margin-bottom: 15px;
-            display: table;
+    #workflow-designer-window-edit .workflow-step {
+        width: 300px;
+        min-width: 300px;
+        min-height: 300px;
+        border: 1px solid #333;
+        margin-left: 30px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        display: table;
+    }
+
+#add-step-button {
+    font-size: 50px;
+    color: #cccccc;
+    margin-top: 120px;
+    margin-left: 15px;
+}
+        #add-step-button:hover {
+            color: #5697ff;
         }
 
-        #add-step-button {
-            font-size: 250px;
-            color: black;
-        }
+    
+
+#add-reviewer-button, #save-workflow-button, button {
+    outline-style: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+input:focus::-webkit-input-placeholder {
+    color: transparent !important;
+}
+
 
 span {
     margin-right: 8px;

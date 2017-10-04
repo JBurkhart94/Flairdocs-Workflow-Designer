@@ -178,3 +178,7 @@ C:\Users\Mason\Documents\Classwork\Capstone\TempFlairdocs\Flairdocs-Workflow-Des
 C:\Users\Mason\Documents\Classwork\Capstone\TempFlairdocs\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\obj\Debug\Flairdocs-Workflow-Designer.csproj.CoreCompileInputs.cache
 C:\Users\Mason\Documents\Classwork\Capstone\TempFlairdocs\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\obj\Debug\Flairdocs-Workflow-Designer.dll
 C:\Users\Mason\Documents\Classwork\Capstone\TempFlairdocs\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\obj\Debug\Flairdocs-Workflow-Designer.pdb
+C:\Users\joebu\Desktop\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\obj\Debug\Flairdocs-Workflow-Designer.csprojResolveAssemblyReference.cache
+C:\Users\joebu\Desktop\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\obj\Debug\Flairdocs-Workflow-Designer.csproj.CoreCompileInputs.cache
+C:\Users\joebu\Desktop\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\obj\Debug\Flairdocs-Workflow-Designer.dll
+C:\Users\joebu\Desktop\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\obj\Debug\Flairdocs-Workflow-Designer.pdb

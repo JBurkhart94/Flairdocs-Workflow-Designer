@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Workflows" EntityType="Model1.Store.Workflows" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Steps" EntityType="Model1.Store.Steps" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reviewers" EntityType="Model1.Store.Reviewers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AuditLogs" EntityType="Model1.Store.AuditLogs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Transitions" EntityType="Model1.Store.Transitions" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="WorkflowStep" Association="Model1.Store.WorkflowStep">
+      <End Role="Workflow" EntitySet="Workflows" />
+      <End Role="Step" EntitySet="Steps" />
+    </AssociationSet>
+    <AssociationSet Name="StepReviewer" Association="Model1.Store.StepReviewer">
+      <End Role="Step" EntitySet="Steps" />
+      <End Role="Reviewer" EntitySet="Reviewers" />
+    </AssociationSet>
+    <AssociationSet Name="WorkflowAuditLog" Association="Model1.Store.WorkflowAuditLog">
+      <End Role="Workflow" EntitySet="Workflows" />
+      <End Role="AuditLog" EntitySet="AuditLogs" />
+    </AssociationSet>
+    <AssociationSet Name="WorkflowTransition" Association="Model1.Store.WorkflowTransition">
+      <End Role="Workflow" EntitySet="Workflows" />
+      <End Role="Transition" EntitySet="Transitions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Workflows">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AuditLog_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Steps">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WorkflowId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reviewers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StepId" Type="int" Nullable="false" />
+    <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AuditLogs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transitions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Conditions" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="WorkflowId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="WorkflowStep">
+    <End Role="Workflow" Type="Model1.Store.Workflows" Multiplicity="1" />
+    <End Role="Step" Type="Model1.Store.Steps" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workflow">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Step">
+        <PropertyRef Name="WorkflowId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StepReviewer">
+    <End Role="Step" Type="Model1.Store.Steps" Multiplicity="1" />
+    <End Role="Reviewer" Type="Model1.Store.Reviewers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Step">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reviewer">
+        <PropertyRef Name="StepId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkflowAuditLog">
+    <End Role="Workflow" Type="Model1.Store.Workflows" Multiplicity="*" />
+    <End Role="AuditLog" Type="Model1.Store.AuditLogs" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="AuditLog">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Workflow">
+        <PropertyRef Name="AuditLog_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WorkflowTransition">
+    <End Role="Workflow" Type="Model1.Store.Workflows" Multiplicity="1" />
+    <End Role="Transition" Type="Model1.Store.Transitions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workflow">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transition">
+        <PropertyRef Name="WorkflowId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
