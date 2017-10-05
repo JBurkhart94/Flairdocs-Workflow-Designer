@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/04/2017 14:40:30
+-- Date Created: 10/05/2017 14:50:45
 -- Generated from EDMX file: C:\Users\Mason\Documents\Classwork\Capstone\TempFlairdocs\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\Models\WorkflowDesigner.edmx
 -- --------------------------------------------------
 
@@ -20,14 +20,20 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_WorkflowStep]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Steps] DROP CONSTRAINT [FK_WorkflowStep];
 GO
-IF OBJECT_ID(N'[dbo].[FK_StepReviewer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reviewers] DROP CONSTRAINT [FK_StepReviewer];
-GO
 IF OBJECT_ID(N'[dbo].[FK_WorkflowAuditLog]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Workflows] DROP CONSTRAINT [FK_WorkflowAuditLog];
 GO
 IF OBJECT_ID(N'[dbo].[FK_WorkflowTransition]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transitions] DROP CONSTRAINT [FK_WorkflowTransition];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReviewerAttribute]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Attributes] DROP CONSTRAINT [FK_ReviewerAttribute];
+GO
+IF OBJECT_ID(N'[dbo].[FK_StepReviewer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reviewers] DROP CONSTRAINT [FK_StepReviewer];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AuditLogAudit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Audits] DROP CONSTRAINT [FK_AuditLogAudit];
 GO
 
 -- --------------------------------------------------
@@ -48,6 +54,12 @@ IF OBJECT_ID(N'[dbo].[AuditLogs]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Transitions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Transitions];
+GO
+IF OBJECT_ID(N'[dbo].[Attributes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Attributes];
+GO
+IF OBJECT_ID(N'[dbo].[Audits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Audits];
 GO
 
 -- --------------------------------------------------

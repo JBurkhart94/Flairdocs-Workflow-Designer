@@ -4,36 +4,36 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="Model1StoreContainer">
-    <EntitySet Name="Workflows" EntityType="Model1.Store.Workflows" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Steps" EntityType="Model1.Store.Steps" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Reviewers" EntityType="Model1.Store.Reviewers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AuditLogs" EntityType="Model1.Store.AuditLogs" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transitions" EntityType="Model1.Store.Transitions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Attributes" EntityType="Model1.Store.Attributes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Audits" EntityType="Model1.Store.Audits" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="WorkflowStep" Association="Model1.Store.WorkflowStep">
+    <Schema Namespace="Workflow.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="WorkflowStoreContainer">
+    <EntitySet Name="Workflows" EntityType="Workflow.Store.Workflows" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Steps" EntityType="Workflow.Store.Steps" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reviewers" EntityType="Workflow.Store.Reviewers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AuditLogs" EntityType="Workflow.Store.AuditLogs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Transitions" EntityType="Workflow.Store.Transitions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attributes" EntityType="Workflow.Store.Attributes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Audits" EntityType="Workflow.Store.Audits" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="WorkflowStep" Association="Workflow.Store.WorkflowStep">
       <End Role="Workflow" EntitySet="Workflows" />
       <End Role="Step" EntitySet="Steps" />
     </AssociationSet>
-    <AssociationSet Name="WorkflowAuditLog" Association="Model1.Store.WorkflowAuditLog">
+    <AssociationSet Name="WorkflowAuditLog" Association="Workflow.Store.WorkflowAuditLog">
       <End Role="Workflow" EntitySet="Workflows" />
       <End Role="AuditLog" EntitySet="AuditLogs" />
     </AssociationSet>
-    <AssociationSet Name="WorkflowTransition" Association="Model1.Store.WorkflowTransition">
+    <AssociationSet Name="WorkflowTransition" Association="Workflow.Store.WorkflowTransition">
       <End Role="Workflow" EntitySet="Workflows" />
       <End Role="Transition" EntitySet="Transitions" />
     </AssociationSet>
-    <AssociationSet Name="ReviewerAttribute" Association="Model1.Store.ReviewerAttribute">
+    <AssociationSet Name="ReviewerAttribute" Association="Workflow.Store.ReviewerAttribute">
       <End Role="Reviewer" EntitySet="Reviewers" />
       <End Role="Attribute" EntitySet="Attributes" />
     </AssociationSet>
-    <AssociationSet Name="StepReviewer" Association="Model1.Store.StepReviewer">
+    <AssociationSet Name="StepReviewer" Association="Workflow.Store.StepReviewer">
       <End Role="Step" EntitySet="Steps" />
       <End Role="Reviewer" EntitySet="Reviewers" />
     </AssociationSet>
-    <AssociationSet Name="AuditLogAudit" Association="Model1.Store.AuditLogAudit">
+    <AssociationSet Name="AuditLogAudit" Association="Workflow.Store.AuditLogAudit">
       <End Role="AuditLog" EntitySet="AuditLogs" />
       <End Role="Audit" EntitySet="Audits" />
     </AssociationSet>
@@ -96,8 +96,8 @@
     <Property Name="Entry" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="WorkflowStep">
-    <End Role="Workflow" Type="Model1.Store.Workflows" Multiplicity="1" />
-    <End Role="Step" Type="Model1.Store.Steps" Multiplicity="*" />
+    <End Role="Workflow" Type="Workflow.Store.Workflows" Multiplicity="1" />
+    <End Role="Step" Type="Workflow.Store.Steps" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Workflow">
         <PropertyRef Name="Id" />
@@ -108,8 +108,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="WorkflowAuditLog">
-    <End Role="Workflow" Type="Model1.Store.Workflows" Multiplicity="*" />
-    <End Role="AuditLog" Type="Model1.Store.AuditLogs" Multiplicity="1" />
+    <End Role="Workflow" Type="Workflow.Store.Workflows" Multiplicity="*" />
+    <End Role="AuditLog" Type="Workflow.Store.AuditLogs" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="AuditLog">
         <PropertyRef Name="Id" />
@@ -120,8 +120,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="WorkflowTransition">
-    <End Role="Workflow" Type="Model1.Store.Workflows" Multiplicity="1" />
-    <End Role="Transition" Type="Model1.Store.Transitions" Multiplicity="*" />
+    <End Role="Workflow" Type="Workflow.Store.Workflows" Multiplicity="1" />
+    <End Role="Transition" Type="Workflow.Store.Transitions" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Workflow">
         <PropertyRef Name="Id" />
@@ -132,8 +132,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="ReviewerAttribute">
-    <End Role="Reviewer" Type="Model1.Store.Reviewers" Multiplicity="1" />
-    <End Role="Attribute" Type="Model1.Store.Attributes" Multiplicity="*" />
+    <End Role="Reviewer" Type="Workflow.Store.Reviewers" Multiplicity="1" />
+    <End Role="Attribute" Type="Workflow.Store.Attributes" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Reviewer">
         <PropertyRef Name="Id" />
@@ -144,8 +144,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="StepReviewer">
-    <End Role="Step" Type="Model1.Store.Steps" Multiplicity="1" />
-    <End Role="Reviewer" Type="Model1.Store.Reviewers" Multiplicity="*" />
+    <End Role="Step" Type="Workflow.Store.Steps" Multiplicity="1" />
+    <End Role="Reviewer" Type="Workflow.Store.Reviewers" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Step">
         <PropertyRef Name="Id" />
@@ -156,8 +156,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="AuditLogAudit">
-    <End Role="AuditLog" Type="Model1.Store.AuditLogs" Multiplicity="1" />
-    <End Role="Audit" Type="Model1.Store.Audits" Multiplicity="*" />
+    <End Role="AuditLog" Type="Workflow.Store.AuditLogs" Multiplicity="1" />
+    <End Role="Audit" Type="Workflow.Store.Audits" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="AuditLog">
         <PropertyRef Name="Id" />
@@ -341,7 +341,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="WorkflowContext">
+  <EntityContainerMapping StorageEntityContainer="WorkflowStoreContainer" CdmEntityContainer="WorkflowContext">
     <EntitySetMapping Name="Workflows">
       <EntityTypeMapping TypeName="IsTypeOf(Workflow.Workflow)">
         <MappingFragment StoreEntitySet="Workflows">
