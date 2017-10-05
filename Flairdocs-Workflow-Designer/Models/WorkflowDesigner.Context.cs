@@ -13,10 +13,10 @@ namespace Flairdocs_Workflow_Designer.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Model1Container : DbContext
+    public partial class WorkflowContext : DbContext
     {
-        public Model1Container()
-            : base("name=Model1Container")
+        public WorkflowContext()
+            : base("name=WorkflowContext")
         {
         }
     
