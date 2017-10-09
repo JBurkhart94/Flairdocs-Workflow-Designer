@@ -359,6 +359,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Attribute.cs">
+      <DependentUpon>WorkflowDesigner.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Audit.cs">
+      <DependentUpon>WorkflowDesigner.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AuditLog.cs">
       <DependentUpon>WorkflowDesigner.tt</DependentUpon>
     </Compile>
