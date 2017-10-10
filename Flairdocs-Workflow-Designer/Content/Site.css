@@ -30,7 +30,7 @@ textarea {
     flex-direction: row;
     flex-wrap: nowrap;
     min-width: 1000px;
-    width: 100%;
+    width: 99%;
     height: 450px;
     min-height: 450px;
     margin-top: 20px;
@@ -146,6 +146,7 @@ textarea {
     flex-wrap: nowrap;
     max-width: 99%;
     max-height: 85%;
+    min-height: 350px;
     overflow: scroll;
 }
 
