@@ -1,10 +1,21 @@
 ﻿var steps = 0;
 swal.setDefaults(
     {
-        width: '50%',
-        showCancelButton: true,
+        width: '30%',
+        progressSteps: ['1', '2'],
         confirmButtonColor: '#2db300',
         cancelButtonColor: 'red',
+        
+    }
+
+);
+
+var q = [
+    {
+        showCancelButton: true,
+        title: 'Workflow Title',
+        input: 'text',
+        confirmButtonText: 'Next',
         inputValidator: function (value) {
             return new Promise(function (resolve, reject) {
                 if (value) {
@@ -15,22 +26,22 @@ swal.setDefaults(
             }
             )
         }
-    }
-
-);
-
-var q = [
-    {
-        title: 'Create New WorkFlow',
-        input: 'text',
-        confirmButtonText: 'Next',
-        inputPlaceholder: 'Inpur Your Workflow Name Here ',
-
     },
     {
-        title: 'Input Descriptions',
+        showCancelButton: true,
+        title: 'Workflow Description',
         input: 'textarea',
         confirmButtonText: 'Done',
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value) {
+                    resolve()
+                } else {
+                    reject("Workflow Descriptions cannot be empty! ")
+                }
+            }
+            )
+        }
     }
 ];
 
@@ -51,7 +62,8 @@ function addStep(e) {
 $('#create-workflow-button').click(
     function () {
         swal.queue(q).then(function () {
-        resetWorkflow();
+            resetWorkflow();
+            swal.resetDefaults();
         swal(
             'created', 'Your Workflow is created successfully!', 'success'
         )

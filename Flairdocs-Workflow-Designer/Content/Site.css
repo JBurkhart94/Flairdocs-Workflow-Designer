@@ -146,7 +146,7 @@ textarea {
     flex-wrap: nowrap;
     max-width: 99%;
     max-height: 85%;
-    min-height: 350px;
+    min-height: 380px;
     overflow: scroll;
 }
 
