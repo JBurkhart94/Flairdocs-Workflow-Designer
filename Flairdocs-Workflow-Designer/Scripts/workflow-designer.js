@@ -1,10 +1,32 @@
 ﻿var steps = 0;
 swal.setDefaults(
     {
-        width: '50%',
-        showCancelButton: true,
+        width: '30%',
+        
         confirmButtonColor: '#2db300',
         cancelButtonColor: 'red',
+        
+    }
+
+);
+
+function create_work_flow() {
+    swal.queue(q).then(function () {
+        resetWorkflow();
+        swal(
+            'created', 'Your Workflow is created successfully!', 'success'
+        )
+    });
+
+}
+
+var q = [
+    {
+        progressSteps: ['1', '2'],
+        showCancelButton: true,
+        title: 'Workflow Title',
+        input: 'text',
+        confirmButtonText: 'Next',
         inputValidator: function (value) {
             return new Promise(function (resolve, reject) {
                 if (value) {
@@ -15,28 +37,30 @@ swal.setDefaults(
             }
             )
         }
-    }
-
-);
-
-var q = [
-    {
-        title: 'Create New WorkFlow',
-        input: 'text',
-        confirmButtonText: 'Next',
-        inputPlaceholder: 'Inpur Your Workflow Name Here ',
-
     },
     {
-        title: 'Input Descriptions',
+        progressSteps: ['1', '2'],
+        showCancelButton: true,
+        title: 'Workflow Description',
         input: 'textarea',
         confirmButtonText: 'Done',
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value) {
+                    resolve()
+                } else {
+                    reject("Workflow Descriptions cannot be empty! ")
+                }
+            }
+            )
+        }
     }
 ];
 
 
 $(document).ready(function () {
     $('#add-step-button').click(addStep);
+    $('#create-workflow-button').click(create_work_flow);
 });
 
 function addStep(e) {
@@ -48,17 +72,6 @@ function addStep(e) {
     console.log("testing");
 }
 
-$('#create-workflow-button').click(
-    function () {
-        swal.queue(q).then(function () {
-        resetWorkflow();
-        swal(
-            'created', 'Your Workflow is created successfully!', 'success'
-        )
-    });
-
-    }
-);
 
 //$('#create-workflow-button').click(function () {
 //    swal({
