@@ -14,8 +14,8 @@ namespace Flairdocs_Workflow_Designer.Models
     
     public partial class Audit
     {
-        public int Id { get; set; }
-        public int AuditLogId { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid AuditLogId { get; set; }
         public string Entry { get; set; }
     
         public virtual AuditLog AuditLog { get; set; }

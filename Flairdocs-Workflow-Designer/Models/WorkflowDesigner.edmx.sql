@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/05/2017 14:50:45
+-- Date Created: 10/12/2017 17:52:20
 -- Generated from EDMX file: C:\Users\Mason\Documents\Classwork\Capstone\TempFlairdocs\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\Models\WorkflowDesigner.edmx
 -- --------------------------------------------------
 
@@ -68,57 +68,57 @@ GO
 
 -- Creating table 'Workflows'
 CREATE TABLE [dbo].[Workflows] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [Title] nvarchar(max)  NOT NULL,
-    [Creation_Date] nvarchar(max)  NOT NULL,
-    [Status] nvarchar(max)  NOT NULL,
-    [AuditLog_Id] int  NOT NULL
+    [Creation_Date] datetime  NOT NULL,
+    [Active] bit  NOT NULL,
+    [AuditLog_Id] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Steps'
 CREATE TABLE [dbo].[Steps] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [WorkflowId] int  NOT NULL,
-    [Creation_Date] nvarchar(max)  NOT NULL
+    [Id] uniqueidentifier  NOT NULL,
+    [WorkflowId] uniqueidentifier  NOT NULL,
+    [Creation_Date] datetime  NOT NULL
 );
 GO
 
 -- Creating table 'Reviewers'
 CREATE TABLE [dbo].[Reviewers] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [Role] nvarchar(max)  NOT NULL,
-    [Creation_Date] nvarchar(max)  NOT NULL,
-    [StepId] int  NOT NULL
+    [Creation_Date] datetime  NOT NULL,
+    [StepId] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'AuditLogs'
 CREATE TABLE [dbo].[AuditLogs] (
-    [Id] int IDENTITY(1,1) NOT NULL
+    [Id] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Transitions'
 CREATE TABLE [dbo].[Transitions] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
     [Conditions] nvarchar(max)  NOT NULL,
-    [WorkflowId] int  NOT NULL
+    [WorkflowId] uniqueidentifier  NOT NULL
 );
 GO
 
 -- Creating table 'Attributes'
 CREATE TABLE [dbo].[Attributes] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [ReviewerId] int  NOT NULL,
-    [Creation_Date] nvarchar(max)  NOT NULL
+    [Id] uniqueidentifier  NOT NULL,
+    [ReviewerId] uniqueidentifier  NOT NULL,
+    [Creation_Date] datetime  NOT NULL
 );
 GO
 
 -- Creating table 'Audits'
 CREATE TABLE [dbo].[Audits] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [AuditLogId] int  NOT NULL,
+    [Id] uniqueidentifier  NOT NULL,
+    [AuditLogId] uniqueidentifier  NOT NULL,
     [Entry] nvarchar(max)  NOT NULL
 );
 GO

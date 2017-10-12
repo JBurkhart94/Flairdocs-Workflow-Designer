@@ -14,9 +14,9 @@ namespace Flairdocs_Workflow_Designer.Models
     
     public partial class Attribute
     {
-        public int Id { get; set; }
-        public int ReviewerId { get; set; }
-        public string Creation_Date { get; set; }
+        public System.Guid Id { get; set; }
+        public System.Guid ReviewerId { get; set; }
+        public System.DateTime Creation_Date { get; set; }
     
         public virtual Reviewer Reviewer { get; set; }
     }

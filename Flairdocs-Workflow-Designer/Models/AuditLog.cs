@@ -20,7 +20,7 @@ namespace Flairdocs_Workflow_Designer.Models
             this.Audits = new HashSet<Audit>();
         }
     
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
     
         public virtual Workflow Workflow { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

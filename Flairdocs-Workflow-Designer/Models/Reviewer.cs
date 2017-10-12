@@ -20,10 +20,10 @@ namespace Flairdocs_Workflow_Designer.Models
             this.Attributes = new HashSet<Attribute>();
         }
     
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
         public string Role { get; set; }
-        public string Creation_Date { get; set; }
-        public int StepId { get; set; }
+        public System.DateTime Creation_Date { get; set; }
+        public System.Guid StepId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attribute> Attributes { get; set; }

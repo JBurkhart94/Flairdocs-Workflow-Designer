@@ -14,9 +14,9 @@ namespace Flairdocs_Workflow_Designer.Models
     
     public partial class Transition
     {
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
         public string Conditions { get; set; }
-        public int WorkflowId { get; set; }
+        public System.Guid WorkflowId { get; set; }
     
         public virtual Workflow Workflow { get; set; }
     }

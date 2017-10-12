@@ -21,10 +21,10 @@ namespace Flairdocs_Workflow_Designer.Models
             this.Transitions = new HashSet<Transition>();
         }
     
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
         public string Title { get; set; }
-        public string Creation_Date { get; set; }
-        public string Status { get; set; }
+        public System.DateTime Creation_Date { get; set; }
+        public bool Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Step> Steps { get; set; }
