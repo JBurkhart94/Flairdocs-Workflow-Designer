@@ -28,7 +28,8 @@ namespace Flairdocs_Workflow_Designer
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/soria.css"));
         }
     }
 }

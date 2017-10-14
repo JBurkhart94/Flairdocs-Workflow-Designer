@@ -7,12 +7,15 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
-    @RenderBody()
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/workflow-designer")
+    <script>dojoConfig = { parseOnLoad: true }</script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"
+            data-dojo-config="async: true"></script>
     @RenderSection("scripts", required: false)
+</head>
+<body class="soria">
+    @RenderBody()
 </body>
 </html>

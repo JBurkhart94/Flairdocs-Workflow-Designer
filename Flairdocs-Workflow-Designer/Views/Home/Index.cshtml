@@ -1,22 +1,60 @@
-﻿<div id="flairdocs-banner">
-    <img src="~/Content/flairsoft-logo.png" alt="Flairdocs" />
-</div>
-<div id="workflow-designer-top-wrapper">
-    <div id="workflow-designer-menu">
-        <input id="workflow-search-box" type="search" />
-        <button id="open-workflow-button" type="button"><span class="glyphicon glyphicon-folder-open"></span>Open Workflow</button>
-        <button id="create-workflow-button" type="button"><span class="glyphicon glyphicon-plus"></span>Create Workflow</button>
-        <button id="workflow-audit-log-button" type="button"><span class="glyphicon glyphicon-list-alt"></span>Audit Log</button>
-        <button id="workflow-settings-button" type="button"><span class="glyphicon glyphicon-cog"></span>Workflow Settings</button>
-    </div>
-    <div id="workflow-designer-window">
-        <div id="workflow-designer-window-buttons">
-            <button id="add-reviewer-button" type="button"><span class="glyphicon glyphicon-move"></span>Drag to add Reviewer</button>
-            <button id="save-workflow-button" type="button"><span class="glyphicon glyphicon-floppy-disk"></span>Save</button>
-        </div>
-        <div id="workflow-designer-window-edit">
+﻿<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'sidebar', gutters:true, liveSplitters:true" id="borderContainer">
 
 
+
+
+
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'top'" style="width: 100px;">
+        <div id="flairdocs-banner">
+            <img src="~/Content/flairsoft-logo.png" alt="Flairdocs" />
+        </div>
+        <div id="workflow-designer-top-wrapper">
+            <div id="workflow-designer-menu">
+                <input id="workflow-search-box" type="search" />
+                <button id="open-workflow-button" type="button"><span class="glyphicon glyphicon-folder-open"></span>Open Workflow</button>
+                <button id="create-workflow-button" type="button"><span class="glyphicon glyphicon-plus"></span>Create Workflow</button>
+                <button id="workflow-audit-log-button" type="button"><span class="glyphicon glyphicon-list-alt"></span>Audit Log</button>
+                <button id="workflow-settings-button" type="button"><span class="glyphicon glyphicon-cog"></span>Workflow Settings</button>
+            </div>
+            <div id="workflow-designer-window">
+                <div id="workflow-designer-window-buttons">
+                    <button id="add-reviewer-button" type="button"><span class="glyphicon glyphicon-move"></span>Drag to add Reviewer</button>
+                    <button id="save-workflow-button" type="button"><span class="glyphicon glyphicon-floppy-disk"></span>Save</button>
+                </div>
+                <div id="workflow-designer-window-edit">
+
+
+                </div>
+            </div>
         </div>
     </div>
+
+
+
+
+
+
+
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'center'">
+
+    </div>
 </div>
+
+
+<style>
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    #borderContainer {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<script>
+    require(["dojo/parser", "dijit/layout/ContentPane", "dijit/layout/BorderContainer"]);
+</script>
