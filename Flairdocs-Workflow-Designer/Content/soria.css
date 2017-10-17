@@ -2810,17 +2810,19 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 
 .soria .dijitSplitterH,
 .soria .dijitGutterH {
-    background: #E1EBFB;
+    background: #5697ff;
     border: 0;
     border-left: 0px solid #d3d3d3;
     border-right: 0px solid #d3d3d3;
-    height: 5px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 10px;
 }
 
     .soria .dijitSplitterH .dijitSplitterThumb {
-        background: #B0B0B0 none;
+        background: white none;
         height: 1px;
-        top: 2px;
+        top: 4px;
         width: 19px;
     }
 

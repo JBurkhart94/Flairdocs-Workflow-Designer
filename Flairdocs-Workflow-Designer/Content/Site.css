@@ -1,6 +1,5 @@
 ﻿body {
     padding-bottom: 20px;
-    background-color: #f2f2f2;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -29,10 +28,10 @@ textarea {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    min-width: 1000px;
+    min-width: 800px;
     width: 99%;
-    height: 450px;
-    min-height: 450px;
+    height: 380px;
+    min-height: 380px;
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 20px;
@@ -44,7 +43,7 @@ textarea {
     width: 200px;
     min-width: 200px;
     height: 100%;
-    min-height: 450px;
+    min-height: 380px;
     border: 1px solid #333;
 }
     /*
@@ -60,7 +59,7 @@ textarea {
         display: block;
         color: black;
         text-align: left;
-        background-color: #f2f2f2;
+        background-color: white;
         outline: none;
     }
 
@@ -95,8 +94,8 @@ textarea {
 #workflow-designer-window {
     order: 1;
     flex-grow: 1;
-    min-width: 700px;
-    min-height: 450px;
+    min-width: 500px;
+    min-height: 380px;
     height: 100%;
     border: 1px solid #333;
     margin-left: 12px;
@@ -146,17 +145,17 @@ textarea {
     flex-wrap: nowrap;
     max-width: 99%;
     max-height: 85%;
-    min-height: 380px;
-    overflow: scroll;
+    min-height: 310px;
+    overflow: auto;
 }
 
     /*
             Elements contained within workflow-designer-window-edit
         */
     #workflow-designer-window-edit .workflow-step {
-        width: 300px;
-        min-width: 300px;
-        min-height: 300px;
+        width: 280px;
+        min-width: 280px;
+        min-height: 250px;
         border: 1px solid #333;
         margin-left: 30px;
         margin-top: 15px;

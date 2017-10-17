@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3b5f7ed7741e4ad09c6ce417b2a6a20a" Name="Diagram1" ShowGrid="false" >
+      <Diagram DiagramId="3b5f7ed7741e4ad09c6ce417b2a6a20a" Name="Diagram1" ShowGrid="false" ZoomLevel="75" >
         <EntityTypeShape EntityType="Workflow.Workflow" Width="1.5" PointX="3.875" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="Workflow.Step" Width="1.5" PointX="6.625" PointY="0.5" />
         <EntityTypeShape EntityType="Workflow.Reviewer" Width="1.5" PointX="9.25" PointY="0.5" />
