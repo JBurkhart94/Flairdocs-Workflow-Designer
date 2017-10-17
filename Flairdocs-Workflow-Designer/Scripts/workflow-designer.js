@@ -108,3 +108,8 @@ function resetWorkflow() {
     addStep();
     steps = 1;
 }
+
+//Warn the user that unsaved changes will be lost when refreshing
+window.onbeforeunload = function () {
+    return "Any unsaved data will be lost.  Are you sure you wish to refresh?";
+}
