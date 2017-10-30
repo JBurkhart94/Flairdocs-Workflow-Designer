@@ -24,6 +24,7 @@ namespace Flairdocs_Workflow_Designer.Models
         public string Role { get; set; }
         public System.DateTime Creation_Date { get; set; }
         public System.Guid StepId { get; set; }
+        public short Order { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attribute> Attributes { get; set; }

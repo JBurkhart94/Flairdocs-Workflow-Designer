@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/12/2017 17:52:20
+-- Date Created: 10/30/2017 14:49:19
 -- Generated from EDMX file: C:\Users\Mason\Documents\Classwork\Capstone\TempFlairdocs\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\Models\WorkflowDesigner.edmx
 -- --------------------------------------------------
 
@@ -61,7 +61,6 @@ GO
 IF OBJECT_ID(N'[dbo].[Audits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Audits];
 GO
-
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
@@ -72,6 +71,7 @@ CREATE TABLE [dbo].[Workflows] (
     [Title] nvarchar(max)  NOT NULL,
     [Creation_Date] datetime  NOT NULL,
     [Active] bit  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL,
     [AuditLog_Id] uniqueidentifier  NOT NULL
 );
 GO
@@ -80,7 +80,8 @@ GO
 CREATE TABLE [dbo].[Steps] (
     [Id] uniqueidentifier  NOT NULL,
     [WorkflowId] uniqueidentifier  NOT NULL,
-    [Creation_Date] datetime  NOT NULL
+    [Creation_Date] datetime  NOT NULL,
+    [Order] smallint  NOT NULL
 );
 GO
 
@@ -89,7 +90,8 @@ CREATE TABLE [dbo].[Reviewers] (
     [Id] uniqueidentifier  NOT NULL,
     [Role] nvarchar(max)  NOT NULL,
     [Creation_Date] datetime  NOT NULL,
-    [StepId] uniqueidentifier  NOT NULL
+    [StepId] uniqueidentifier  NOT NULL,
+    [Order] smallint  NOT NULL
 );
 GO
 

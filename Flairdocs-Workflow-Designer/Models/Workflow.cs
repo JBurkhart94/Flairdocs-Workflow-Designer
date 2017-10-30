@@ -25,6 +25,7 @@ namespace Flairdocs_Workflow_Designer.Models
         public string Title { get; set; }
         public System.DateTime Creation_Date { get; set; }
         public bool Active { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Step> Steps { get; set; }

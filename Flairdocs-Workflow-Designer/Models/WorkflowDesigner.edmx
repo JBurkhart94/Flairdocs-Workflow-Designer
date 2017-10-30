@@ -42,57 +42,60 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Creation_Date" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="AuditLog_Id" Type="int" Nullable="false" />
+    <Property Name="Creation_Date" Type="datetime" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AuditLog_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Steps">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="WorkflowId" Type="int" Nullable="false" />
-    <Property Name="Creation_Date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WorkflowId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Creation_Date" Type="datetime" Nullable="false" />
+    <Property Name="Order" Type="smallint" Nullable="false" />
   </EntityType>
   <EntityType Name="Reviewers">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Creation_Date" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="StepId" Type="int" Nullable="false" />
+    <Property Name="Creation_Date" Type="datetime" Nullable="false" />
+    <Property Name="StepId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Order" Type="smallint" Nullable="false" />
   </EntityType>
   <EntityType Name="AuditLogs">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="Transitions">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Conditions" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="WorkflowId" Type="int" Nullable="false" />
+    <Property Name="WorkflowId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Attributes">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ReviewerId" Type="int" Nullable="false" />
-    <Property Name="Creation_Date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReviewerId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Creation_Date" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Audits">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AuditLogId" Type="int" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AuditLogId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Entry" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="WorkflowStep">
@@ -215,6 +218,7 @@
           <NavigationProperty Name="Transitions" Relationship="Workflow.WorkflowTransition" FromRole="Workflow" ToRole="Transition" />
           <Property Name="Creation_Date" Type="DateTime" Nullable="false" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Step">
           <Key>
@@ -225,6 +229,7 @@
           <Property Name="WorkflowId" Type="Guid" Nullable="false" />
           <Property Name="Creation_Date" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Reviewers" Relationship="Workflow.StepReviewer" FromRole="Step" ToRole="Reviewer" />
+          <Property Name="Order" Type="Int16" Nullable="false" />
         </EntityType>
         <EntityType Name="Reviewer">
           <Key>
@@ -236,6 +241,7 @@
           <NavigationProperty Name="Attributes" Relationship="Workflow.ReviewerAttribute" FromRole="Reviewer" ToRole="Attribute" />
           <NavigationProperty Name="Step" Relationship="Workflow.StepReviewer" FromRole="Reviewer" ToRole="Step" />
           <Property Name="StepId" Type="Guid" Nullable="false" />
+          <Property Name="Order" Type="Int16" Nullable="false" />
         </EntityType>
         <Association Name="WorkflowStep">
           <End Type="Workflow.Workflow" Role="Workflow" Multiplicity="1" />
@@ -348,7 +354,8 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Creation_Date" ColumnName="Creation_Date" />
-          <ScalarProperty Name="Active" ColumnName="Status" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -358,6 +365,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
           <ScalarProperty Name="Creation_Date" ColumnName="Creation_Date" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -368,6 +376,7 @@
           <ScalarProperty Name="Role" ColumnName="Role" />
           <ScalarProperty Name="Creation_Date" ColumnName="Creation_Date" />
           <ScalarProperty Name="StepId" ColumnName="StepId" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
