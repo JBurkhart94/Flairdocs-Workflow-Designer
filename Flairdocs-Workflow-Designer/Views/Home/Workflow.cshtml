@@ -1,4 +1,11 @@
-﻿<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'sidebar', gutters:false, liveSplitters:true" id="borderContainer">
+﻿@model Flairdocs_Workflow_Designer.Models.Workflow
+
+@{
+    ViewBag.Title = "Workflow";
+}
+
+
+<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'sidebar', gutters:false, liveSplitters:true" id="borderContainer">
 
 
 
@@ -15,15 +22,18 @@
                 <button id="create-workflow-button" type="button"><span class="glyphicon glyphicon-plus"></span>Create Workflow</button>
                 <button id="workflow-audit-log-button" type="button"><span class="glyphicon glyphicon-list-alt"></span>Audit Log</button>
                 <button id="workflow-settings-button" type="button"><span class="glyphicon glyphicon-cog"></span>Workflow Settings</button>
+                <div id="workflow-description">
+                    <i>@Model.Description</i>
+                </div>
             </div>
             <div id="workflow-designer-window">
                 <div id="workflow-designer-window-buttons">
                     <button id="add-reviewer-button" type="button"><span class="glyphicon glyphicon-move"></span>Drag to add Reviewer</button>
-                    <button id="save-workflow-button" type="button"><span class="glyphicon glyphicon-floppy-disk"></span>Save</button>
+                    <button id="save-workflow-button" type="button"><span class="glyphicon glyphicon-floppy-disk" onclick="'@Url.Action("Save", "Home")'"></span>Save</button>
                 </div>
                 <div id="workflow-designer-window-edit">
-
-
+                    <div class="workflow-step"></div>
+                    <div id="add-step-button" class="glyphicon glyphicon-chevron-right"></div>
                 </div>
             </div>
         </div>
@@ -40,6 +50,9 @@
     </div>
 </div>
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
 <style>
     html, body {
@@ -47,10 +60,21 @@
         height: 100%;
         margin: 0;
     }
+
     #borderContainer {
         width: 100%;
         height: 100%;
         overflow: auto;
+    }
+
+    #workflow-description {
+        width: 170px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 15px;
+        max-height: 100px;
+        overflow: auto;
+        font-weight: 100;
     }
 </style>
 
@@ -158,5 +182,10 @@
         $('#add-step-button').click(addStep);
         addStep();
         steps = 1;
+    }
+
+    //Warn the user that unsaved changes will be lost when refreshing
+    window.onbeforeunload = function () {
+        return "Any unsaved data will be lost.  Are you sure you wish to refresh?";
     }
 </script>
