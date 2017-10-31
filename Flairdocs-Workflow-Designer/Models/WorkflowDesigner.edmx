@@ -42,7 +42,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Creation_Date" Type="datetime" Nullable="false" />
     <Property Name="Active" Type="bit" Nullable="false" />
@@ -53,7 +53,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
     <Property Name="WorkflowId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Creation_Date" Type="datetime" Nullable="false" />
     <Property Name="Order" Type="smallint" Nullable="false" />
@@ -62,7 +62,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
     <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Creation_Date" Type="datetime" Nullable="false" />
     <Property Name="StepId" Type="uniqueidentifier" Nullable="false" />
@@ -72,13 +72,13 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
   </EntityType>
   <EntityType Name="Transitions">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
     <Property Name="Conditions" Type="nvarchar(max)" Nullable="false" />
     <Property Name="WorkflowId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
@@ -86,7 +86,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
     <Property Name="ReviewerId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Creation_Date" Type="datetime" Nullable="false" />
   </EntityType>
@@ -94,7 +94,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
     <Property Name="AuditLogId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Entry" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
@@ -211,7 +211,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Title" Type="String" Nullable="false" />
           <NavigationProperty Name="Steps" Relationship="Workflow.WorkflowStep" FromRole="Workflow" ToRole="Step" />
           <NavigationProperty Name="AuditLog" Relationship="Workflow.WorkflowAuditLog" FromRole="Workflow" ToRole="AuditLog" />
@@ -224,7 +224,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="Workflow" Relationship="Workflow.WorkflowStep" FromRole="Step" ToRole="Workflow" />
           <Property Name="WorkflowId" Type="Guid" Nullable="false" />
           <Property Name="Creation_Date" Type="DateTime" Nullable="false" />
@@ -235,7 +235,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Role" Type="String" Nullable="false" />
           <Property Name="Creation_Date" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Attributes" Relationship="Workflow.ReviewerAttribute" FromRole="Reviewer" ToRole="Attribute" />
@@ -259,7 +259,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="Workflow" Relationship="Workflow.WorkflowAuditLog" FromRole="AuditLog" ToRole="Workflow" />
           <NavigationProperty Name="Audits" Relationship="Workflow.AuditLogAudit" FromRole="AuditLog" ToRole="Audit" />
         </EntityType>
@@ -271,7 +271,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Conditions" Type="String" Nullable="false" />
           <NavigationProperty Name="Workflow" Relationship="Workflow.WorkflowTransition" FromRole="Transition" ToRole="Workflow" />
           <Property Name="WorkflowId" Type="Guid" Nullable="false" />
@@ -292,7 +292,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="Reviewer" Relationship="Workflow.ReviewerAttribute" FromRole="Attribute" ToRole="Reviewer" />
           <Property Name="ReviewerId" Type="Guid" Nullable="false" />
           <Property Name="Creation_Date" Type="DateTime" Nullable="false" />
@@ -325,7 +325,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <NavigationProperty Name="AuditLog" Relationship="Workflow.AuditLogAudit" FromRole="Audit" ToRole="AuditLog" />
           <Property Name="AuditLogId" Type="Guid" Nullable="false" />
           <Property Name="Entry" Type="String" Nullable="false" />
