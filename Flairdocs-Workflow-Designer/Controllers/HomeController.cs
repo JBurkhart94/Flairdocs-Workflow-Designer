@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Flairdocs_Workflow_Designer.Models;
+using System.Data.Entity;
 
 namespace Flairdocs_Workflow_Designer.Controllers
 {
@@ -14,12 +15,14 @@ namespace Flairdocs_Workflow_Designer.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Titles = GetTitles();
             return View();
         }
 
         public ActionResult Workflow(Guid id)
         {
             Workflow workflow = db.Workflows.Find(id);
+            ViewBag.Titles = GetTitles();
             return View(workflow);
         }
 
@@ -54,6 +57,19 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
+        public Guid? GetWorkflowId(String title)
+        {
+            var exists = from w in db.Workflows
+                         where w.Title == title
+                         select w;
+
+            if (exists.Count() > 0)
+            {
+                return exists.ElementAt(0).Id;
+            }
+            return null;
+        }
+
         //Check if a workflow exists with the given name
         public Boolean TitleExists(String title)
         {
@@ -71,6 +87,16 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
+        private List<string> GetTitles()
+        {
+            DbSet<Workflow> workflows = db.Workflows;
+            List<string> titles = new List<string>();
+            foreach (Workflow w in workflows)
+            {
+                titles.Add(w.Title);
+            }
+            return titles;
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
