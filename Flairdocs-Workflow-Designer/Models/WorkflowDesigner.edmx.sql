@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/30/2017 14:49:19
+-- Date Created: 10/31/2017 14:25:09
 -- Generated from EDMX file: C:\Users\Mason\Documents\Classwork\Capstone\TempFlairdocs\Flairdocs-Workflow-Designer\Flairdocs-Workflow-Designer\Models\WorkflowDesigner.edmx
 -- --------------------------------------------------
 
@@ -61,6 +61,7 @@ GO
 IF OBJECT_ID(N'[dbo].[Audits]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Audits];
 GO
+
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
