@@ -32,7 +32,20 @@
                     <button id="save-workflow-button" type="button"><span class="glyphicon glyphicon-floppy-disk" onclick="'@Url.Action("Save", "Home")'"></span>Save</button>
                 </div>
                 <div id="workflow-designer-window-edit">
-                    <div class="workflow-step"></div>
+                    @{
+                        if (Model.Steps.Count() == 0)
+                        {
+                            <div class="workflow-step" value="00000000-0000-0000-0000-000000000000"></div>
+                        }
+                        else
+                        {
+                            foreach (var step in Model.Steps)
+                            {
+                                <div class="workflow-step" value="@step.Id"></div>
+                            }
+                        }
+                    }
+
                     <div id="add-step-button" class="glyphicon glyphicon-chevron-right"></div>
                 </div>
             </div>
@@ -76,15 +89,29 @@
 
 <script>
     require(["dojo/parser", "dijit/layout/ContentPane", "dijit/layout/BorderContainer"]);
-    var steps = 0;
+    var steps = @Model.Steps.Count();
     var title = "default";
     var description = "default";
 
     $(document).ready(function () {
         $('#add-step-button').click(addStep);
         $('#create-workflow-button').click(create_work_flow);
+        $('#save-workflow-button').click(save_workflow);
     });
 
+    function save_workflow() {
+        $('.workflow-step').each(function (index) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", '@Url.Action("SaveStep", "Home")?workflowId=@Model.Id' + "&stepId=" + $(this).attr('value') + "&order=" + index, true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    console.log("Saved step " + index);
+                    $(this).value = xhttp.response;
+                }
+            }
+        });
+    }
     function create_work_flow() {
         swal.setDefaults(
             {
@@ -164,7 +191,7 @@
 
     function addStep(e) {
         steps += 1;
-        var code = '<div class="workflow-step"></div >';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"></div >';
         $(code).insertBefore('#add-step-button');
         var tag = $('#workflow-designer-window-edit');
         tag.scrollLeft(350 * steps);

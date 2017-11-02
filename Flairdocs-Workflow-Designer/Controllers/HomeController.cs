@@ -57,6 +57,35 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
+        public Guid? SaveStep(Guid workflowId, Guid? stepId, int order)
+        {
+            Workflow workflow = db.Workflows.Find(workflowId);
+            Step step;
+
+            if (!(stepId == Guid.Empty))
+            {
+                step = db.Steps.Find(stepId);
+                step.Order = (short)order;
+            }
+            else
+            {
+                step = new Step
+                {
+                    Id = Guid.NewGuid(),
+                    WorkflowId = workflowId,
+                    Creation_Date = DateTime.Now,
+                    Order = (short)order,
+                    Workflow = workflow
+                };
+                db.Steps.Add(step);
+                workflow.Steps.Add(step);
+            }
+
+            db.SaveChanges();
+
+            return step.Id;
+        }
+
         public Guid? GetWorkflowId(String title)
         {
             var exists = from w in db.Workflows
