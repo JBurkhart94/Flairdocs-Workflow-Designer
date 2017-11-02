@@ -25,10 +25,10 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.Manage().Window.Maximize();
                 String actualHeight = driver.FindElement(By.Id("workflow-designer-menu")).GetCssValue("height");
                 Console.WriteLine("Actual Height: " + actualHeight);
-                String expectedHeight = "450px";
+                String expectedHeight = "380px";
                 String actualWidth = driver.FindElement(By.Id("workflow-designer-menu")).GetCssValue("width");
                 Console.WriteLine("Actual Width: " + actualWidth);
-                String expectedWidth = "200px";
+                String expectedWidth = "220px";
                 Assert.AreEqual(expectedHeight, actualHeight);
                 Assert.AreEqual(expectedWidth, actualWidth);
                 driver.Close();
@@ -53,7 +53,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.Manage().Window.Maximize();
                 String actualHeight = driver.FindElement(By.Id("workflow-designer-window")).GetCssValue("height");
                 Console.WriteLine("Actual Height: " + actualHeight);
-                String expectedHeight = "450px";
+                String expectedHeight = "380px";
                 Assert.AreEqual(expectedHeight, actualHeight);
                 driver.Close();
                 driver.Dispose();
@@ -79,7 +79,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.FindElement(By.Id("create-workflow-button"));
                 driver.FindElement(By.Id("workflow-audit-log-button"));
                 driver.FindElement(By.Id("workflow-settings-button"));
-                driver.FindElement(By.Id("workflow-search-box"));
+                driver.FindElement(By.ClassName("workflow-live-search"));
 
                 driver.Close();
                 driver.Dispose();
@@ -148,7 +148,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.Navigate().GoToUrl(url);
                 driver.Manage().Window.Maximize();
                 String actualOverflow = driver.FindElement(By.Id("workflow-designer-window-edit")).GetCssValue("overflow");
-                String expectedOverflow = "scroll";
+                String expectedOverflow = "auto";
                 Assert.AreEqual(expectedOverflow, actualOverflow);
                 driver.Close();
                 driver.Dispose();
@@ -176,7 +176,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.Manage().Window.Maximize();
                 String actualHeight = driver.FindElement(By.Id("workflow-designer-menu")).GetCssValue("height");
                 Console.WriteLine("Actual Height: " + actualHeight);
-                String expectedHeight = "448px";
+                String expectedHeight = "366px";
                 String actualWidth = driver.FindElement(By.Id("workflow-designer-menu")).GetCssValue("width");
                 Console.WriteLine("Actual Width: " + actualWidth);
                 String expectedWidth = "198px";
@@ -204,7 +204,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.Manage().Window.Maximize();
                 String actualHeight = driver.FindElement(By.Id("workflow-designer-window")).GetCssValue("height");
                 Console.WriteLine("Actual Height: " + actualHeight);
-                String expectedHeight = "448px";
+                String expectedHeight = "378px";
                 Assert.AreEqual(expectedHeight, actualHeight);
                 driver.Close();
                 driver.Dispose();
@@ -230,7 +230,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.FindElement(By.Id("create-workflow-button"));
                 driver.FindElement(By.Id("workflow-audit-log-button"));
                 driver.FindElement(By.Id("workflow-settings-button"));
-                driver.FindElement(By.Id("workflow-search-box"));
+                driver.FindElement(By.ClassName("workflow-live-search"));
 
                 driver.Close();
                 driver.Dispose();
@@ -299,7 +299,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.Navigate().GoToUrl(url);
                 driver.Manage().Window.Maximize();
                 String actualOverflow = driver.FindElement(By.Id("workflow-designer-window-edit")).GetCssValue("overflow");
-                String expectedOverflow = "scroll";
+                String expectedOverflow = "auto";
                 Assert.AreEqual(expectedOverflow, actualOverflow);
                 driver.Close();
                 driver.Dispose();

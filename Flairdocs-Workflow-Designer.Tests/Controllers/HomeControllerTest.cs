@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.Entity;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Flairdocs_Workflow_Designer;
@@ -20,6 +21,7 @@ namespace Flairdocs_Workflow_Designer.Tests.Controllers
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
+            System.Threading.Thread.Sleep(1000);
 
             // Assert
             Assert.IsNotNull(result);
@@ -36,19 +38,6 @@ namespace Flairdocs_Workflow_Designer.Tests.Controllers
 
             // Assert
             Assert.AreEqual("Your application description page.", result.ViewBag.Message);
-        }
-
-        [TestMethod]
-        public void Contact()
-        {
-            // Arrange
-            HomeController controller = new HomeController();
-
-            // Act
-            ViewResult result = controller.Contact() as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
         }
     }
 }
