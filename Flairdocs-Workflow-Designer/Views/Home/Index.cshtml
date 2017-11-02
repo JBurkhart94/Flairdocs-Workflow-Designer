@@ -10,9 +10,9 @@
         </div>
         <div id="workflow-designer-top-wrapper">
             <div id="workflow-designer-menu">
-                <select class="workflow-live-search" name="titles[]" multiple="multiple">
-                    @{ 
-                        foreach(string title in ViewBag.Titles)
+                <select class="workflow-live-search" data-placeholder="Search Workflow">
+                    @{
+                        foreach (string title in ViewBag.Titles)
                         {
                             <option>@title</option>
                         }
@@ -70,8 +70,36 @@
     $(document).ready(function () {
         $('#add-step-button').click(addStep);
         $('#create-workflow-button').click(create_work_flow);
-        $('.workflow-live-search').select2();
+        // select2 Setup
+        $('.workflow-live-search').select2({
+            allowClear: true,
+            multiple: false,
+            width: '200px',
+            theme: 'classic',
+            // used to toggle search box
+            dropdownAutoWidth: true,
+            closeOnSelect: true,
+            //dropdownParent: $('.workflow-live-search')
+        });
+        // reset selection
+
+        $('.workflow-live-search').val('').change();
+        $("#open-workflow-button").click(open_workflow);
     });
+
+    function open_workflow() {
+        if ($('.workflow-live-search').select2('data')[0].text != "") {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", '@Url.Action("WorkflowSearch", "Home")?title=' + $('.workflow-live-search').select2('data')[0].text, true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200 && xhttp.response != null) {
+                      var url = '@Url.Action("Workflow", "Home")?id=' + xhttp.response;
+                      window.location.href = url;
+                }
+            }
+        }
+    }
 
     function create_work_flow() {
         swal.setDefaults(

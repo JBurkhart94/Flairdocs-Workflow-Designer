@@ -26,6 +26,19 @@ namespace Flairdocs_Workflow_Designer.Controllers
             return View(workflow);
         }
 
+        public Guid? WorkflowSearch(String title)
+        {
+            var workflow = from w in db.Workflows
+                                where w.Title == title
+                                select w;
+
+            if (workflow.Count() > 0)
+            {
+                return workflow.First().Id;
+            }
+            return null;
+        }
+
         public Guid? Create(String title, String description)
         {
             if (!TitleExists(title))
@@ -86,19 +99,6 @@ namespace Flairdocs_Workflow_Designer.Controllers
             return step.Id;
         }
 
-        public Guid? GetWorkflowId(String title)
-        {
-            var exists = from w in db.Workflows
-                         where w.Title == title
-                         select w;
-
-            if (exists.Count() > 0)
-            {
-                return exists.ElementAt(0).Id;
-            }
-            return null;
-        }
-
         //Check if a workflow exists with the given name
         public Boolean TitleExists(String title)
         {
@@ -126,6 +126,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
             return titles;
         }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

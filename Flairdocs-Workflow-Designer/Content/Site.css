@@ -40,12 +40,16 @@ textarea {
 
 #workflow-designer-menu {
     order: 0;
-    width: 200px;
-    min-width: 200px;
+    padding-top: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 220px;
+    min-width: 220px;
     height: 100%;
     min-height: 380px;
     border: 1px solid #333;
 }
+
     
     /*
         These are buttons within the workflow-designer-menu div
@@ -189,6 +193,6 @@ input:focus::-webkit-input-placeholder {
 }
 
 
-span {
+button span {
     margin-right: 8px;
 }
