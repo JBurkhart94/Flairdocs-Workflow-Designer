@@ -11,6 +11,7 @@
         <div id="workflow-designer-top-wrapper">
             <div id="workflow-designer-menu">
                 <select class="workflow-live-search" data-placeholder="Search Workflow">
+                    <option></option>
                     @{
                         foreach (string title in ViewBag.Titles)
                         {
@@ -72,6 +73,7 @@
         $('#create-workflow-button').click(create_work_flow);
         // select2 Setup
         $('.workflow-live-search').select2({
+            val: null,
             allowClear: true,
             multiple: false,
             width: '200px',

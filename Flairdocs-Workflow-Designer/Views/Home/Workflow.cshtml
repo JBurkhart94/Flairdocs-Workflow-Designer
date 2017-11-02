@@ -18,6 +18,7 @@
         <div id="workflow-designer-top-wrapper">
             <div id="workflow-designer-menu">
                 <select class="workflow-live-search" data-placeholder="Search Workflow">
+                    <option></option>
                     @{
                         foreach (string title in ViewBag.Titles)
                         {
@@ -109,7 +110,7 @@
         $('.workflow-live-search').select2({
             allowClear: true,
             multiple: false,
-            width: '200px',
+            width: '190px',
             theme: 'classic',
             // used to toggle search box
             dropdownAutoWidth: true,
@@ -242,8 +243,4 @@
         steps = 1;
     }
 
-    //Warn the user that unsaved changes will be lost when refreshing
-    window.onbeforeunload = function () {
-        return "Any unsaved data will be lost.  Are you sure you wish to refresh?";
-    }
 </script>
