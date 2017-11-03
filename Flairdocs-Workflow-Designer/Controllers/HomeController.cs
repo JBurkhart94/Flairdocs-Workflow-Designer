@@ -15,6 +15,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Title = "Workflow Designer";
             ViewBag.Titles = GetTitles();
             return View();
         }
@@ -22,6 +23,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
         public ActionResult Workflow(Guid id)
         {
             Workflow workflow = db.Workflows.Find(id);
+            ViewBag.Title = workflow.Title;
             ViewBag.Titles = GetTitles();
             return View(workflow);
         }
