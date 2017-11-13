@@ -42,7 +42,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Creation_Date" Type="datetime" Nullable="false" />
     <Property Name="Active" Type="bit" Nullable="false" />
@@ -53,7 +53,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="WorkflowId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Creation_Date" Type="datetime" Nullable="false" />
     <Property Name="Order" Type="smallint" Nullable="false" />
@@ -62,7 +62,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Creation_Date" Type="datetime" Nullable="false" />
     <Property Name="StepId" Type="uniqueidentifier" Nullable="false" />
@@ -72,13 +72,13 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <EntityType Name="Transitions">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Conditions" Type="nvarchar(max)" Nullable="false" />
     <Property Name="WorkflowId" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
@@ -86,7 +86,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ReviewerId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Creation_Date" Type="datetime" Nullable="false" />
   </EntityType>
@@ -94,7 +94,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
     <Property Name="AuditLogId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Entry" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
