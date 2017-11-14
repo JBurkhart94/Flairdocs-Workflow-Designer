@@ -28,6 +28,11 @@ namespace Flairdocs_Workflow_Designer.Controllers
         public ActionResult Workflow(Guid id)
         {
             Workflow workflow = db.Workflows.Find(id);
+            workflow.Steps.OrderBy(step => step.Order);
+            foreach (Step step in workflow.Steps)
+            {
+                step.Reviewers = db.Reviewers.Where(r => r.StepId == step.Id).OrderBy(r => r.Order).ToList();
+            }
             ViewBag.Title = workflow.Title;
             ViewBag.Titles = GetTitles();
             return View(workflow);
@@ -105,6 +110,34 @@ namespace Flairdocs_Workflow_Designer.Controllers
             db.SaveChanges();
 
             return step.Id;
+        }
+
+        [HttpPost]
+        public Guid? SaveReviewer(Guid stepId, Guid? reviewerId, int order)
+        {
+
+            Reviewer reviewer;
+            if (!(reviewerId == Guid.Empty))
+            {
+                reviewer = db.Reviewers.Find(reviewerId);
+                reviewer.StepId = stepId;
+                reviewer.Order = (short)order;
+            }
+            else
+            {
+                reviewer = new Reviewer
+                {
+                    Id = Guid.NewGuid(),
+                    Order = (short)order,
+                    Creation_Date = DateTime.Now,
+                    Role = "Default",
+                    StepId = stepId
+                };
+                db.Reviewers.Add(reviewer);
+            }
+            db.SaveChanges();
+
+            return reviewer.Id;
         }
 
         //Check if a workflow exists with the given name

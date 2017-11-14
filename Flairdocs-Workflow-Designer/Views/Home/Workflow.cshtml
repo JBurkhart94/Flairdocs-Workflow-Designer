@@ -39,7 +39,7 @@
                         {
                             <div class="workflow-step" value="00000000-0000-0000-0000-000000000000">
                                 <ul class="reviewer-list ui-sortable">
-                                    <li class="reviewer">Reviewer</li>
+                                    <li class="reviewer" value="00000000-0000-0000-0000-000000000000">Unsaved</li>
                                 </ul>
                             </div>
                         }
@@ -49,7 +49,9 @@
                             {
                                 <div class="workflow-step" value="@step.Id">
                                     <ul class="reviewer-list ui-sortable">
-                                        <li class="reviewer">Reviewer</li>
+                                        @foreach(var reviewer in step.Reviewers){
+                                            <li class="reviewer" value="@reviewer.Id">Reviewer</li>
+                                        }
                                     </ul>
                                 </div>
                             }
@@ -137,7 +139,7 @@
         $('.reviewer-list').droppable({
             accept: '#add-reviewer-button',
             drop: function (event, ui) {
-                $(this).append('<li class="reviewer">Unsaved Reviewer</li>')
+                $(this).append('<li class="reviewer" value="00000000-0000-0000-0000-000000000000">Unsaved Reviewer</li>')
             }
         });
         $('.reviewer-list').sortable({
@@ -160,21 +162,40 @@
         Function to save the current workflow.  The method will use AJAX to save the current state of the workflow.  During the
         save process the save button should be disabled to prevent flooding the server with multiple save requests on the same
         unsaved state.  When the workflow is saved, the corresponding GUI elements on the page should be updated to reflect the
-        state of the database. 
+        state of the database.
     */
     function save_workflow() {
         disable_button($('#save-workflow-button'));
         //Update the number of saves in progress, the save button will be re-enabled once this returns to 0.
         updateSavesInProgress($('.workflow-step').length);
         $('.workflow-step').each(function (index) {
-            var el = $(this);
+            var step = $(this);
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", '@Url.Action("SaveStep", "Home")?workflowId=@Model.Id' + "&stepId=" + $(this).attr('value') + "&order=" + index, true);
             xhttp.send();
             xhttp.onreadystatechange = function () {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    el.attr('value', xhttp.response);
-                    el.promise().done(function () {
+                    step.attr('value', xhttp.response);
+                    console.log(step.find('li'));
+
+                    //Now consider all reviewers within a step
+                    updateSavesInProgress(step.find('li').length);
+                    var stepId = xhttp.response;
+                    step.find('li').each(function (reviewer_index) {
+                        var reviewer = $(this);
+                        var xhttp_reviewer = new XMLHttpRequest();
+                        xhttp_reviewer.open("POST", '@Url.Action("SaveReviewer", "Home")?stepId=' + stepId + "&reviewerId=" + reviewer.attr('value') + "&order=" + reviewer_index, true);
+                        xhttp_reviewer.send();
+                        xhttp_reviewer.onreadystatechange = function () {
+                            if (xhttp_reviewer.readyState == 4 && xhttp_reviewer.status == 200) {
+                                reviewer.attr('value', xhttp_reviewer.response);
+                                reviewer.promise().done(function () {
+                                    setTimeout(function () { updateSavesInProgress(-1) }, 10);
+                                })
+                            }
+                        }
+                    });
+                    step.promise().done(function () {
                         setTimeout(function () { updateSavesInProgress(-1) }, 10);
                     });
                 }
@@ -190,7 +211,7 @@
         //Update number of steps
         steps += 1;
         //Create new step with Empty GUID value.
-        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer">Unsaved Reviewer</li></ul></div >';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000">Unsaved Reviewer</li></ul></div >';
 
         //Insert this new step before the add step button
         $(code).insertBefore('#add-step-button');
