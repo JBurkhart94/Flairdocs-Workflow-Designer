@@ -108,6 +108,12 @@
         $('#add-step-button').click(add_step);
         //Save a workflow
         $('#save-workflow-button').click(save_workflow);
+        $('#add-reviewer-button').draggable({
+            helper: "clone"
+        });
+        $('workflow-step').droppable({
+            accepts: "#add-reviewer-button"
+        });
     });
 
     /*
