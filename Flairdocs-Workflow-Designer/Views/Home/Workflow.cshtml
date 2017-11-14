@@ -37,14 +37,23 @@
                     @{
                         if (Model.Steps.Count() == 0)
                         {
-                            <div class="workflow-step" value="00000000-0000-0000-0000-000000000000"></div>
+                            <div class="workflow-step" value="00000000-0000-0000-0000-000000000000">
+                                <ul class="reviewer-list ui-sortable">
+                                    <li class="reviewer">First</li>
+                                </ul>
+                            </div>
                         }
                         else
                         {
                             foreach (var step in Model.Steps)
                             {
-                                <div class="workflow-step" value="@step.Id"></div>
+                                <div class="workflow-step" value="@step.Id">
+                                    <ul class="reviewer-list ui-sortable">
+                                        <li class="reviewer">First</li>
+                                    </ul>
+                                </div>
                             }
+  
                         }
                     }
 
@@ -87,8 +96,21 @@
         overflow: auto;
         font-weight: 100;
     }
+
     #add-reviewer-button {
         width: 10%;
+    }
+
+    .reviewer-list{
+        min-width: 150px;
+        min-height: 100px;
+        border: 1px solid black;
+    }
+
+    .reviewer-list li{
+        min-width: 100px;
+        min-height: 50px;
+        border: 1px solid black;
     }
 </style>
 
@@ -102,6 +124,17 @@
     var numOfSavesInProgress = 0;
     var inProgress = false;
 
+    function setup_drag_and_drop() {
+        $('.reviewer-list').droppable({
+            accept: '#add-reviewer-button',
+            drop: function (event, ui) {
+                $(this).append('<li class="reviewer">Dropped</li>')
+            }
+        });
+        $('.reviewer-list').sortable({
+            connectWith: '.reviewer-list'
+        });
+    }
     //Set up JavaScript event handlers
     $(document).ready(function () {
         //Create a workflow step
@@ -111,9 +144,7 @@
         $('#add-reviewer-button').draggable({
             helper: "clone"
         });
-        $('workflow-step').droppable({
-            accepts: "#add-reviewer-button"
-        });
+        setup_drag_and_drop();
     });
 
     /*
@@ -150,7 +181,7 @@
         //Update number of steps
         steps += 1;
         //Create new step with Empty GUID value.
-        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="sortable"><li>testing</li></ul></div >';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer">First</li></ul></div >';
 
         //Insert this new step before the add step button
         $(code).insertBefore('#add-step-button');
@@ -158,6 +189,7 @@
         var tag = $('#workflow-designer-window-edit');
         //Auto-scroll
         tag.scrollLeft(350 * steps);
+        setup_drag_and_drop();
     }
 
     /*

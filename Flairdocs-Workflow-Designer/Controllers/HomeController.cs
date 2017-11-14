@@ -13,6 +13,11 @@ namespace Flairdocs_Workflow_Designer.Controllers
 
         WorkflowContext db = new WorkflowContext();
 
+        public ActionResult DragNDrop()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             ViewBag.Title = "Workflow Designer";
