@@ -5,8 +5,6 @@
 
 
 
-
-
     <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'top'" style="width: 100px; overflow-y: auto">
         <div id="flairdocs-banner">
             <img src="~/Content/flairsoft-logo.png" alt="Flairdocs" />
@@ -94,63 +92,33 @@
     }
 </style>
 
+@Html.Partial("WorkflowScriptCommon")
+
 <script>
-    require(["dojo/parser", "dijit/layout/ContentPane", "dijit/layout/BorderContainer"]);
+    //Number of steps used for auto-scrolling feature
     var steps = @Model.Steps.Count();
-    var title = "default";
-    var description = "default";
+
+    //Keep track of the amount of saves for enabling/disabling the save button
     var numOfSavesInProgress = 0;
     var inProgress = false;
 
+    //Set up JavaScript event handlers
     $(document).ready(function () {
-        $('#add-step-button').click(addStep);
-        $('#create-workflow-button').click(create_work_flow);
+        //Create a workflow step
+        $('#add-step-button').click(add_step);
+        //Save a workflow
         $('#save-workflow-button').click(save_workflow);
-        $("#open-workflow-button").click(open_workflow);
-        // select2 Setup
-        $('.workflow-live-search').select2({
-            allowClear: true,
-            multiple: false,
-            width: '200px',
-            theme: 'classic',
-            // used to toggle search box
-            dropdownAutoWidth: true,
-            closeOnSelect: true,
-            //dropdownParent: $('.workflow-live-search')
-        });
-        // reset selection
-        $('.workflow-live-search').val('').change();
-        $("#add-reviewer-button").draggable({
-            helper: "clone",
-            connectToSortable: "sortable"
-        });
-        $("workflow-step").droppable({
-            accept: "#add-reviewer-button",
-            drop: function (event, ui) {
-                $(this)
-                    .find("ul")
-                        .html("<li>Reviewer</li>");
-            }
-        })
-        $("sortable").sortable({
-            revert: true
-        })
     });
-    function open_workflow() {
-        if ($('.workflow-live-search').select2('data')[0].text != "") {
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", '@Url.Action("WorkflowSearch", "Home")?title=' + $('.workflow-live-search').select2('data')[0].text, true);
-            xhttp.send();
-            xhttp.onreadystatechange = function () {
-                if (xhttp.readyState == 4 && xhttp.status == 200 && xhttp.response != null) {
-                      var url = '@Url.Action("Workflow", "Home")?id=' + xhttp.response;
-                      window.location.href = url;
-                }
-            }
-        }
-    }
+
+    /*
+        Function to save the current workflow.  The method will use AJAX to save the current state of the workflow.  During the
+        save process the save button should be disabled to prevent flooding the server with multiple save requests on the same
+        unsaved state.  When the workflow is saved, the corresponding GUI elements on the page should be updated to reflect the
+        state of the database. 
+    */
     function save_workflow() {
-        disableButton($('#save-workflow-button'));
+        disable_button($('#save-workflow-button'));
+        //Update the number of saves in progress, the save button will be re-enabled once this returns to 0.
         updateSavesInProgress($('.workflow-step').length);
         $('.workflow-step').each(function (index) {
             var el = $(this);
@@ -161,123 +129,50 @@
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                     el.attr('value', xhttp.response);
                     el.promise().done(function () {
-                        setTimeout(function () { updateSavesInProgress(-1) }, 100);
+                        setTimeout(function () { updateSavesInProgress(-1) }, 10);
                     });
                 }
             }
         });
     }
-    function create_work_flow() {
-        swal.setDefaults(
-            {
-                width: '30%',
-                confirmButtonColor: '#2db300',
-                cancelButtonColor: 'red',
 
-            }
-        );
-        var q = [
-            {
-                progressSteps: ['1', '2'],
-                showCancelButton: true,
-                title: 'Workflow Title',
-                input: 'text',
-                confirmButtonText: 'Next',
-                inputValidator: function (value) {
-                    return new Promise(function (resolve, reject) {
-                        if (value) {
-                            var xhttp = new XMLHttpRequest();
-                            xhttp.open("POST", '@Url.Action("TitleExists", "Home")?title=' + value, true);
-                            xhttp.send();
-                            xhttp.onreadystatechange = function () {
-                                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                                    console.log(xhttp.response);
-                                    if (xhttp.response == "False") {
-                                        title = value;
-                                        resolve();
-                                    } else {
-                                        reject("Workflow " + value + " already exists!");
-                                    }
-
-                                }
-                            }
-                        } else {
-                            reject("Workflow title cannot be empty! ");
-                        }
-                    }
-                    )
-                }
-            },
-            {
-                progressSteps: ['1', '2'],
-                showCancelButton: true,
-                title: 'Workflow Description',
-                input: 'textarea',
-                confirmButtonText: 'Done',
-                inputValidator: function (value) {
-                    return new Promise(function (resolve, reject) {
-                        if (value) {
-                            description = value;
-                            resolve()
-                        } else {
-                            reject("Workflow Descriptions cannot be empty! ")
-                        }
-                    }
-                    )
-                }
-            }
-        ];
-        swal.queue(q).then(function () {
-            //Once successful, create the new workflow and redirect to its editable page
-            var xhttp = new XMLHttpRequest();
-            xhttp.open("POST", '@Url.Action("Create", "Home")?title=' + title + '&description=' + description, true);
-            xhttp.send();
-            xhttp.onreadystatechange = function () {
-                if (xhttp.readyState == 4 && xhttp.status == 200 && xhttp.response != null) {
-                    console.log("Received Response From Create: " + xhttp.response);
-                    var url = '@Url.Action("Workflow", "Home")?id=' + xhttp.response;
-                    console.log("Redirect url: " + url);
-                    console.log(xhttp.response);
-                    window.location.href = url;
-                }
-            }
-        });
-
-    }
-
-    function addStep(e) {
+    /*
+        Function to add a new step to the current workflow.  By default the step will have a value equivalent to the value of an Empty GUID.
+        Also, the workflow-designer-window-edit should be auto-scrolled to the end.
+    */
+    function add_step(e) {
+        //Update number of steps
         steps += 1;
+        //Create new step with Empty GUID value.
         var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="sortable"><li>testing</li></ul></div >';
+
+        //Insert this new step before the add step button
         $(code).insertBefore('#add-step-button');
+
         var tag = $('#workflow-designer-window-edit');
+        //Auto-scroll
         tag.scrollLeft(350 * steps);
-        console.log("testing");
     }
 
-
-    function resetWorkflow() {
-        console.log("Resetting workflow");
-        $("#workflow-designer-window-edit").html('<div id="add-step-button" class="glyphicon glyphicon-chevron-right"></div>');
-        $('#add-step-button').click(addStep);
-        addStep();
-        steps = 1;
-    }
-
+    /*
+        Function to keep track of the number of saves in progress.  This function acts as a synchronization function on the save button
+        while still allowing the AJAX to perform asynchronously for saving the workflow.
+    */
     function updateSavesInProgress(count) {
         numOfSavesInProgress += count;
         if (numOfSavesInProgress > 0) {
-            disableButton($('#save-workflow-button'));
+            disable_button($('#save-workflow-button'));
         } else {
-            enableButton($('#save-workflow-button'));
+            enable_button($('#save-workflow-button'));
         }
     }
 
-    function disableButton(button) {
+    function disable_button(button) {
         button.prop("disabled", true);
         button.css("background-color", "#cecece");
     }
 
-    function enableButton(button) {
+    function enable_button(button) {
         button.prop("disabled", false);
         button.css("background-color", "#5697ff");
     }

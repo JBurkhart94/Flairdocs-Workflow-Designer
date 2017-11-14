@@ -1,0 +1,130 @@
+﻿<script>
+    //Require Dojo
+    require(["dojo/parser", "dijit/layout/ContentPane", "dijit/layout/BorderContainer"]);
+
+    //Set default values for workflow title and description
+    var title = "default";
+    var description = "default";
+
+    //Set up JavaScript event handlers
+    $(document).ready(function () {
+        //Create workflow button
+        $('#create-workflow-button').click(create_work_flow);
+
+        //Open workflow button
+        $("#open-workflow-button").click(open_workflow);
+
+        //Select2 live search setup
+        $('.workflow-live-search').select2({
+            allowClear: true,
+            multiple: false,
+            width: '200px',
+            theme: 'classic',
+            // used to toggle search box
+            dropdownAutoWidth: true,
+            closeOnSelect: true,
+            //dropdownParent: $('.workflow-live-search')
+        });
+        // reset selection
+        $('.workflow-live-search').val('').change();
+    });
+    /*
+        Function to handle opening an existing workflow.  It collects whatever is gathered from the live search bar
+        and uses AJAX to find the Id of the given workflow title.  It then requests the View for the corresponding workflow.
+        Notice that we use POST even when GET could be appropriate.  This is because IE will cache GET requests and this will
+        cause problems if we call this method twice.
+    */
+    function open_workflow() {
+        if ($('.workflow-live-search').select2('data')[0].text != "") {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", '@Url.Action("WorkflowSearch", "Home")?title=' + $('.workflow-live-search').select2('data')[0].text, true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200 && xhttp.response != null) {
+                      var url = '@Url.Action("Workflow", "Home")?id=' + xhttp.response;
+                      window.location.href = url;
+                }
+            }
+        }
+    }
+
+    /*
+        Function to handle creating a new workflow.  This method uses sweet alerts to collect the information from the user regarding the
+        new workflow.  It will not accept workflow titles that contain the empty string and it will also reject workflow titles that
+        already exist within the system.  Currently Descriptions allow for new lines to be added.
+    */
+    function create_work_flow() {
+        swal.setDefaults(
+            {
+                width: '30%',
+                confirmButtonColor: '#2db300',
+                cancelButtonColor: 'red',
+
+            }
+        );
+        var q = [
+            {
+                progressSteps: ['1', '2'],
+                showCancelButton: true,
+                title: 'Workflow Title',
+                input: 'text',
+                confirmButtonText: 'Next',
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        if (value) {
+                            var xhttp = new XMLHttpRequest();
+                            xhttp.open("POST", '@Url.Action("TitleExists", "Home")?title=' + value, true);
+                            xhttp.send();
+                            xhttp.onreadystatechange = function () {
+                                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                                    console.log(xhttp.response);
+                                    if (xhttp.response == "False") {
+                                        title = value;
+                                        resolve();
+                                    } else {
+                                        reject("Workflow " + value + " already exists!");
+                                    }
+
+                                }
+                            }
+                        } else {
+                            reject("Workflow title cannot be empty! ");
+                        }
+                    }
+                    )
+                }
+            },
+            {
+                progressSteps: ['1', '2'],
+                showCancelButton: true,
+                title: 'Workflow Description',
+                input: 'textarea',
+                confirmButtonText: 'Done',
+                inputValidator: function (value) {
+                    return new Promise(function (resolve, reject) {
+                        if (value) {
+                            description = value;
+                            resolve()
+                        } else {
+                            reject("Workflow Descriptions cannot be empty! ")
+                        }
+                    }
+                    )
+                }
+            }
+        ];
+        swal.queue(q).then(function () {
+            //Once successful, create the new workflow and redirect to its editable page
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", '@Url.Action("Create", "Home")?title=' + title + '&description=' + description, true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200 && xhttp.response != null) {
+                    var url = '@Url.Action("Workflow", "Home")?id=' + xhttp.response;
+                    window.location.href = url;
+                }
+            }
+        });
+
+    }
+</script>
