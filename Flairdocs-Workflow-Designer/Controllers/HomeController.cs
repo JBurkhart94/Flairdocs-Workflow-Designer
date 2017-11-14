@@ -72,6 +72,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
+        [HttpPost]
         public Guid? SaveStep(Guid workflowId, Guid? stepId, int order)
         {
             Workflow workflow = db.Workflows.Find(workflowId);
@@ -127,20 +128,6 @@ namespace Flairdocs_Workflow_Designer.Controllers
                 titles.Add(w.Title);
             }
             return titles;
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }
