@@ -32,7 +32,7 @@
             </div>
             <div id="workflow-designer-window">
                 <div id="workflow-designer-window-buttons">
-                    <button id="add-reviewer-button" type="button"><span class="glyphicon glyphicon-move"></span>Drag to add Reviewer</button>
+                    <div id="add-reviewer-button"><span class="glyphicon glyphicon-move"></span>Drag to add Reviewer</div>
                     <button id="save-workflow-button" type="button"><span class="glyphicon glyphicon-floppy-disk" onclick="'@Url.Action("Save", "Home")'"></span>Save</button>
                 </div>
                 <div id="workflow-designer-window-edit">
@@ -89,6 +89,9 @@
         overflow: auto;
         font-weight: 100;
     }
+    #add-reviewer-button {
+        width: 10%;
+    }
 </style>
 
 <script>
@@ -116,8 +119,22 @@
             //dropdownParent: $('.workflow-live-search')
         });
         // reset selection
-
         $('.workflow-live-search').val('').change();
+        $("#add-reviewer-button").draggable({
+            helper: "clone",
+            connectToSortable: "sortable"
+        });
+        $("workflow-step").droppable({
+            accept: "#add-reviewer-button",
+            drop: function (event, ui) {
+                $(this)
+                    .find("ul")
+                        .html("<li>Reviewer</li>");
+            }
+        })
+        $("sortable").sortable({
+            revert: true
+        })
     });
     function open_workflow() {
         if ($('.workflow-live-search').select2('data')[0].text != "") {
@@ -230,7 +247,7 @@
 
     function addStep(e) {
         steps += 1;
-        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"></div >';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="sortable"><li>testing</li></ul></div >';
         $(code).insertBefore('#add-step-button');
         var tag = $('#workflow-designer-window-edit');
         tag.scrollLeft(350 * steps);

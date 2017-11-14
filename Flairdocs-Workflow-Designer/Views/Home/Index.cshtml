@@ -26,7 +26,7 @@
             </div>
             <div id="workflow-designer-window">
                 <div id="workflow-designer-window-buttons">
-                    <button id="add-reviewer-button" type="button"><span class="glyphicon glyphicon-move"></span>Drag to add Reviewer</button>
+                    <div id="add-reviewer-button"><span class="glyphicon glyphicon-move"></span>Drag to add Reviewer</div>
                     <button id="save-workflow-button" type="button"><span class="glyphicon glyphicon-floppy-disk"></span>Save</button>
                 </div>
                 <div id="workflow-designer-window-edit">
@@ -60,6 +60,10 @@
         height: 100%;
         overflow: auto;
     }
+    #add-reviewer-button {
+        width: 12%;
+        float: left;
+    }
 </style>
 
 <script>
@@ -67,7 +71,6 @@
     var steps = 0;
     var title = "default";
     var description = "default";
-
     $(document).ready(function () {
         $('#add-step-button').click(addStep);
         $('#create-workflow-button').click(create_work_flow);
@@ -86,7 +89,14 @@
 
         $('.workflow-live-search').val('').change();
         $("#open-workflow-button").click(open_workflow);
-    });
+        $("#add-reviewer-button").draggable({
+            helper: "clone",
+            connectToSortable: "sortable"
+        });
+        $("workflow-step").droppable({
+            accept: "#add-reviewer-button",
+        })
+    }); 
 
     function open_workflow() {
         if ($('.workflow-live-search').select2('data')[0].text != "") {
@@ -181,7 +191,7 @@
 
     function addStep(e) {
         steps += 1;
-        var code = '<div class="workflow-step"></div >';
+        var code = '<div class="workflow-step"><ul class="sortable"><li>testing</li></ul></div >';
         $(code).insertBefore('#add-step-button');
         var tag = $('#workflow-designer-window-edit');
         tag.scrollLeft(350 * steps);
