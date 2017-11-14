@@ -39,7 +39,7 @@
                         {
                             <div class="workflow-step" value="00000000-0000-0000-0000-000000000000">
                                 <ul class="reviewer-list ui-sortable">
-                                    <li class="reviewer">First</li>
+                                    <li class="reviewer">Reviewer</li>
                                 </ul>
                             </div>
                         }
@@ -49,7 +49,7 @@
                             {
                                 <div class="workflow-step" value="@step.Id">
                                     <ul class="reviewer-list ui-sortable">
-                                        <li class="reviewer">First</li>
+                                        <li class="reviewer">Reviewer</li>
                                     </ul>
                                 </div>
                             }
@@ -97,20 +97,29 @@
         font-weight: 100;
     }
 
-    #add-reviewer-button {
-        width: 10%;
-    }
-
     .reviewer-list{
-        min-width: 150px;
-        min-height: 100px;
-        border: 1px solid black;
+        padding: 0px;
+        margin-left: 1px;
+        min-width: inherit;
+        max-width: inherit;
+        min-height: inherit;
+        text-decoration: none;
+        list-style-type: none;
     }
 
     .reviewer-list li{
-        min-width: 100px;
-        min-height: 50px;
+        word-wrap: break-word;
+        text-align: center;
+        min-width: 200px;
+        max-width: 200px;
+        min-height: 60px;
         border: 1px solid black;
+        border-radius: 15px;
+        margin-left:auto;
+        margin-right: auto;
+        padding-left: 6px;
+        padding-right: 6px;
+        margin-top: 8px;
     }
 </style>
 
@@ -128,7 +137,7 @@
         $('.reviewer-list').droppable({
             accept: '#add-reviewer-button',
             drop: function (event, ui) {
-                $(this).append('<li class="reviewer">Dropped</li>')
+                $(this).append('<li class="reviewer">Unsaved Reviewer</li>')
             }
         });
         $('.reviewer-list').sortable({
@@ -181,7 +190,7 @@
         //Update number of steps
         steps += 1;
         //Create new step with Empty GUID value.
-        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer">First</li></ul></div >';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer">Unsaved Reviewer</li></ul></div >';
 
         //Insert this new step before the add step button
         $(code).insertBefore('#add-step-button');

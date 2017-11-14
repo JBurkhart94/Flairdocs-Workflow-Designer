@@ -109,8 +109,16 @@ textarea {
         Elements below are children of the workflow-designer-window
     */
 #workflow-designer-window-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
     width: 100%;
     height: 50px;
+}
+
+#workflow-designer-window-buttons div{
+    max-width: 300px;
+    margin-right: 10px;
 }
 /*
             These are button elements within the workflow-designer-window-buttons div
@@ -149,7 +157,7 @@ textarea {
     flex-direction: row;
     flex-wrap: nowrap;
     max-width: 99%;
-    max-height: 85%;
+    max-height: 81%;
     min-height: 310px;
     overflow: auto;
 }
@@ -158,7 +166,7 @@ textarea {
             Elements contained within workflow-designer-window-edit
         */
     #workflow-designer-window-edit .workflow-step {
-        width: 280px;
+        max-width: 280px;
         min-width: 280px;
         min-height: 250px;
         border: 1px solid #333;
