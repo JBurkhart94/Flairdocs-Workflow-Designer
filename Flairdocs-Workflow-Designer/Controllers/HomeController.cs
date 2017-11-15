@@ -120,8 +120,11 @@ namespace Flairdocs_Workflow_Designer.Controllers
             if (!(reviewerId == Guid.Empty))
             {
                 reviewer = db.Reviewers.Find(reviewerId);
-                reviewer.StepId = stepId;
-                reviewer.Order = (short)order;
+                if(reviewer != null)
+                {
+                    reviewer.StepId = stepId;
+                    reviewer.Order = (short)order;
+                }
             }
             else
             {
@@ -138,6 +141,16 @@ namespace Flairdocs_Workflow_Designer.Controllers
             db.SaveChanges();
 
             return reviewer.Id;
+        }
+
+        public void RemoveReviewer(Guid reviewerId)
+        {
+            Reviewer reviewer = db.Reviewers.Find(reviewerId);
+            if(reviewer != null)
+            {
+                db.Reviewers.Remove(reviewer);
+                db.SaveChanges();
+            }
         }
 
         //Check if a workflow exists with the given name

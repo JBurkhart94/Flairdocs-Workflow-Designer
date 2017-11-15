@@ -204,3 +204,7 @@ input:focus::-webkit-input-placeholder {
 button span {
     margin-right: 8px;
 }
+
+#add-reviewer-button span {
+    margin-right: 8px;
+}
