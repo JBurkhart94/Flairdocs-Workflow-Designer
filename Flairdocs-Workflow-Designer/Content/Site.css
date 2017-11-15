@@ -156,10 +156,10 @@ textarea {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    max-width: 99%;
+    max-width: 97%%;
     max-height: 81%;
     min-height: 310px;
-    overflow: auto;
+    overflow: scroll;
 }
 
     /*
