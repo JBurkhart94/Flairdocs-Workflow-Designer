@@ -28,7 +28,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
         public ActionResult Workflow(Guid id)
         {
             Workflow workflow = db.Workflows.Find(id);
-            workflow.Steps.OrderBy(step => step.Order);
+            workflow.Steps = workflow.Steps.OrderBy(step => step.Order).ToList();
             foreach (Step step in workflow.Steps)
             {
                 step.Reviewers = db.Reviewers.Where(r => r.StepId == step.Id).OrderBy(r => r.Order).ToList();
