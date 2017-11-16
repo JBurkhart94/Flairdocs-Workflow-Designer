@@ -91,7 +91,10 @@ namespace Flairdocs_Workflow_Designer.Controllers
             if (!(stepId == Guid.Empty))
             {
                 step = db.Steps.Find(stepId);
-                step.Order = (short)order;
+                if(step != null)
+                {
+                    step.Order = (short)order;
+                }
             }
             else
             {

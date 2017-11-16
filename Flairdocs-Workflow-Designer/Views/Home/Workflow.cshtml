@@ -39,7 +39,7 @@
                         {
                             <div class="workflow-step" value="00000000-0000-0000-0000-000000000000">
                                 <ul class="reviewer-list ui-sortable">
-                                    <li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Unsaved Reviewer</li>
+                                    <li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li>
                                 </ul>
                             </div>
                         }
@@ -50,7 +50,7 @@
                                 <div class="workflow-step" value="@step.Id">
                                     <ul class="reviewer-list ui-sortable">
                                         @foreach(var reviewer in step.Reviewers){
-                                            <li class="reviewer" value="@reviewer.Id"><button type="button" class="remove-reviewer-button">X</button>Saved Reviewer</li>
+                                            <li class="reviewer" value="@reviewer.Id"><button type="button" class="remove-reviewer-button">X</button>Admin</li>
                                         }
                                     </ul>
                                 </div>
@@ -106,10 +106,9 @@
         max-width: inherit;
         min-height: inherit;
         text-decoration: none;
-        list-style-type: none;
     }
 
-        .reviewer-list li {
+        .reviewer {
             line-height: 1.7;
             word-wrap: break-word;
             text-align: center;
@@ -125,13 +124,18 @@
             margin-top: 8px;
             background-color: #5697ff;
             color: white;
+            list-style-type: none;
+        }
+
+        .reviewer:hover {
+            cursor: move;
         }
 
     .remove-reviewer-button {
         display: block;
         margin-left: 169px;
         background-color: #5697ff;
-        color: black;
+        color: white;
         border-radius: 15px;
         border: none;
     }
@@ -155,7 +159,7 @@
         $('.reviewer-list').droppable({
             accept: '#add-reviewer-button',
             drop: function (event, ui) {
-                $(this).append('<li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Unsaved Reviewer</li>')
+                $(this).append('<li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li>')
                     .promise().done(function () {
                         $('.remove-reviewer-button').click(function () { remove_reviewer($(this.parentElement)); });
                     });
@@ -175,7 +179,9 @@
         $('#save-workflow-button').click(save_workflow);
         //Make the drag-to-add reviewer draggable
         $('#add-reviewer-button').draggable({
-            helper: "clone"
+            helper: function () {
+                return $('<li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li>');
+            }
         });
         setup_drag_and_drop();
     });
@@ -253,7 +259,7 @@
         //Update number of steps
         steps += 1;
         //Create new step with Empty GUID value.
-        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Unsaved Reviewer</li></ul></div >';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li></ul></div >';
 
         //Insert this new step before the add step button
         $(code).insertBefore('#add-step-button');
