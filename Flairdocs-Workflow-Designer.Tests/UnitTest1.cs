@@ -148,7 +148,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.Navigate().GoToUrl(url);
                 driver.Manage().Window.Maximize();
                 String actualOverflow = driver.FindElement(By.Id("workflow-designer-window-edit")).GetCssValue("overflow");
-                String expectedOverflow = "auto";
+                String expectedOverflow = "scroll";
                 Assert.AreEqual(expectedOverflow, actualOverflow);
                 driver.Close();
                 driver.Dispose();
@@ -299,7 +299,7 @@ namespace Flairdocs_Workflow_Designer.Tests
                 driver.Navigate().GoToUrl(url);
                 driver.Manage().Window.Maximize();
                 String actualOverflow = driver.FindElement(By.Id("workflow-designer-window-edit")).GetCssValue("overflow");
-                String expectedOverflow = "auto";
+                String expectedOverflow = "scroll";
                 Assert.AreEqual(expectedOverflow, actualOverflow);
                 driver.Close();
                 driver.Dispose();
