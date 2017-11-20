@@ -42,6 +42,7 @@
                                     <li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li>
                                 </ul>
                             </div>
+                            <div class="add-step glyphicon glyphicon-chevron-right"></div>
                         }
                         else
                         {
@@ -54,12 +55,12 @@
                                         }
                                     </ul>
                                 </div>
+                                <div class="add-step glyphicon glyphicon-chevron-right"></div>
                             }
-  
+
                         }
                     }
 
-                    <div id="add-step-button" class="glyphicon glyphicon-chevron-right"></div>
                 </div>
             </div>
         </div>
@@ -174,7 +175,7 @@
     //Set up JavaScript event handlers
     $(document).ready(function () {
         //Create a workflow step
-        $('#add-step-button').click(add_step);
+        $('.add-step').click(add_step);
         //Save a workflow
         $('#save-workflow-button').click(save_workflow);
         //Make the drag-to-add reviewer draggable
@@ -259,14 +260,13 @@
         //Update number of steps
         steps += 1;
         //Create new step with Empty GUID value.
-        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li></ul></div >';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li></ul></div ><div class="add-step glyphicon glyphicon-chevron-right"></div>';
 
         //Insert this new step before the add step button
-        $(code).insertBefore('#add-step-button');
+        $(code).insertAfter(this);
 
-        var tag = $('#workflow-designer-window-edit');
-        //Auto-scroll
-        tag.scrollLeft(350 * steps);
+        //Set up add step button for the new step as well as drag and drop for reviewers
+        resetAddStep();
         setup_drag_and_drop();
     }
 
@@ -281,6 +281,11 @@
         } else {
             enable_button($('#save-workflow-button'));
         }
+    }
+
+    function resetAddStep() {
+        $('.add-step').off('click');
+        $('.add-step').click(add_step);
     }
 
     function disable_button(button) {

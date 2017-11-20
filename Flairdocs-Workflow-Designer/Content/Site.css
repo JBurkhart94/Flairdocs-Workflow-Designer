@@ -176,16 +176,17 @@ textarea {
         display: table;
     }
 
-#add-step-button {
+.add-step {
     cursor: pointer;
     font-size: 50px;
     color: #cccccc;
     margin-top: 100px;
     margin-left: 15px;
 }
-        #add-step-button:hover {
-            color: #5697ff;
-        }
+
+    .add-step:hover {
+        color: #5697ff;
+    }
 
     
 
