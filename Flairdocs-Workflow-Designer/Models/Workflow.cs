@@ -20,8 +20,7 @@ namespace Flairdocs_Workflow_Designer.Models
             this.Steps = new HashSet<Step>();
             this.Transitions = new HashSet<Transition>();
         }
-        
-
+    
         public System.Guid Id { get; set; }
         public string Title { get; set; }
         public System.DateTime Creation_Date { get; set; }

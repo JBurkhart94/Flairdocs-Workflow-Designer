@@ -176,6 +176,10 @@ textarea {
         display: table;
     }
 
+    #workflow-designer-window-edit .workflow-step:hover {
+        background-color: lightgray;
+    }
+
 #add-step-button {
     cursor: pointer;
     font-size: 50px;
