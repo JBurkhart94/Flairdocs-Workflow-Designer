@@ -116,7 +116,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
         }
 
         [HttpPost]
-        public Guid? SaveReviewer(Guid stepId, Guid? reviewerId, int order)
+        public Guid? SaveReviewer(Guid stepId, Guid? reviewerId, int order, String role)
         {
 
             Reviewer reviewer;
@@ -136,7 +136,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
                     Id = Guid.NewGuid(),
                     Order = (short)order,
                     Creation_Date = DateTime.Now,
-                    Role = "Default",
+                    Role = role,
                     StepId = stepId
                 };
                 db.Reviewers.Add(reviewer);
@@ -182,6 +182,17 @@ namespace Flairdocs_Workflow_Designer.Controllers
                 titles.Add(w.Title);
             }
             return titles;
+        }
+        
+        [HttpGet]
+        private Reviewer GetReviewer(Guid reviewerId)
+        {
+            Reviewer reviewer = db.Reviewers.Find(reviewerId);
+            if (reviewer == null)
+            {
+                Console.Write("The reviewer is not yet saved. Returning Null");
+            }
+            return reviewer;
         }
     }
 }

@@ -51,7 +51,7 @@
                                 <div class="workflow-step" value="@step.Id">
                                     <ul class="reviewer-list ui-sortable">
                                         @foreach(var reviewer in step.Reviewers){
-                                            <li class="reviewer" value="@reviewer.Id"><button type="button" class="remove-reviewer-button">X</button>Admin</li>
+                                            <li class="reviewer" value="@reviewer.Id"><button type="button" class="remove-reviewer-button">X</button>@reviewer.Role</li>
                                         }
                                     </ul>
                                 </div>
@@ -72,8 +72,8 @@
 
 
 
-    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'center'">
-
+    <div id="slider" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'center'">
+        
     </div>
 </div>
 
@@ -164,13 +164,15 @@
                     .promise().done(function () {
                         $('.remove-reviewer-button').click(function () { remove_reviewer($(this.parentElement)); });
                     });
-
+                $('.reviewer').off('click');
+                $('.reviewer').click(function () { display_reviewer($(this)); });
             }
         });
         $('.reviewer-list').sortable({
             connectWith: '.reviewer-list',
         });
         $('.remove-reviewer-button').click(function () { remove_reviewer($(this.parentElement)); });
+
     }
     //Set up JavaScript event handlers
     $(document).ready(function () {
@@ -185,6 +187,8 @@
             }
         });
         setup_drag_and_drop();
+        //Display reviewer information when clicked
+        $('.reviewer').click(function () { display_reviewer($(this)); });
     });
 
     function remove_reviewer(el){
@@ -283,9 +287,13 @@
         }
     }
 
+    /*
+        Function resets the add step buttons so the new add step is registered but the others don't register
+        multiple events (and add multiple steps when clicked)
+    */
     function resetAddStep() {
-        $('.add-step').off('click');
-        $('.add-step').click(add_step);
+       $('.add-step').off('click');
+       $('.add-step').click(add_step);
     }
 
     function disable_button(button) {
@@ -296,6 +304,27 @@
     function enable_button(button) {
         button.prop("disabled", false);
         button.css("background-color", "#5697ff");
+    }
+
+    function display_reviewer(el) {
+        $("#slider").empty();
+        var id = el.attr("value");
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", '@Url.Action("GetReviewer", "Home")?reviewerId=' + id, true);
+        xhttp.send();
+        xhttp.onreadystatechange = function () {
+            var reviewer = xhttp.response;
+            console.log("Reviewer is null: " + (reviewer == null));
+            console.log("Reviewer Id: " + reviewer.Id)
+            if (reviewer.Id != null) {
+                code = '<h1>Reviewer Information</h1><div>ID: ' + reviewer.Id + '</div><div>Role: ' + reviewer.Role + '</div>';
+                $("#slider").html(code);
+            }
+            else {
+                code = '<h1>Reviewer Information</h1><div>ID: Not yet assigned</div><div>Role: ' + reviewer.Role + '</div>';
+                $("#slider").html(code);
+            }
+        }
     }
 
 </script>
