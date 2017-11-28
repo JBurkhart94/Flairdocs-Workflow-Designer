@@ -33,33 +33,37 @@
                     <div id="add-reviewer-button"><span class="glyphicon glyphicon-move"></span>Drag to add Reviewer</div>
                     <button id="save-workflow-button" type="button"><span class="glyphicon glyphicon-floppy-disk" onclick="'@Url.Action("Save", "Home")'"></span>Save</button>
                 </div>
+
                 <div id="workflow-designer-window-edit">
                     @{
                         if (Model.Steps.Count() == 0)
                         {
                             <div class="workflow-step" value="00000000-0000-0000-0000-000000000000">
+                                <button class="delete-step-button">X</button>
                                 <ul class="reviewer-list ui-sortable">
                                     <li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li>
                                 </ul>
                             </div>
+                            <div class="add-step glyphicon glyphicon-chevron-right"></div>
                         }
                         else
                         {
                             foreach (var step in Model.Steps)
                             {
                                 <div class="workflow-step" value="@step.Id">
+                                    <button class="delete-step-button">X</button>
                                     <ul class="reviewer-list ui-sortable">
                                         @foreach(var reviewer in step.Reviewers){
                                             <li class="reviewer" value="@reviewer.Id"><button type="button" class="remove-reviewer-button">X</button>Admin</li>
                                         }
                                     </ul>
                                 </div>
+                                <div class="add-step glyphicon glyphicon-chevron-right"></div>
                             }
-  
+
                         }
                     }
 
-                    <div id="add-step-button" class="glyphicon glyphicon-chevron-right"></div>
                 </div>
             </div>
         </div>
@@ -143,6 +147,12 @@
     .remove-reviewer-button:active{
         color: grey;
     }
+
+    .delete-step-button {
+        border: none;
+        background-color: white;
+        color: #5697ff;
+    }
 </style>
 
 <!--Add shared scripts of workflow here-->>
@@ -171,15 +181,18 @@
             connectWith: '.reviewer-list',
         });
         $('.remove-reviewer-button').click(function () { remove_reviewer($(this.parentElement)); });
-        $('.workflow-step').click(function () {
+        $('.delete-step-button').click(function () {
+           
+            delete_step($(this.parentElement));
             console.log(this);
-            delete_step($(this));
+            console.log($(this));
+            console.log($(this.parentElement));
         });
     }
     //Set up JavaScript event handlers
     $(document).ready(function () {
         //Create a workflow step
-        $('#add-step-button').click(add_step);
+        $('.add-step').click(add_step);
         //Save a workflow
         $('#save-workflow-button').click(save_workflow);
         //Make the drag-to-add reviewer draggable
@@ -265,14 +278,13 @@
         //Update number of steps
         steps += 1;
         //Create new step with Empty GUID value.
-        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li></ul></div >';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><button class="delete-step-button">X</button><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li></ul></div ><div class="add-step glyphicon glyphicon-chevron-right"></div>';
 
         //Insert this new step before the add step button
-        $(code).insertBefore('#add-step-button');
+        $(code).insertAfter(this);
 
-        var tag = $('#workflow-designer-window-edit');
-        //Auto-scroll
-        tag.scrollLeft(350 * steps);
+        //Set up add step button for the new step as well as drag and drop for reviewers
+        resetAddStep();
         setup_drag_and_drop();
     }
 
@@ -289,6 +301,11 @@
         }
     }
 
+    function resetAddStep() {
+        $('.add-step').off('click');
+        $('.add-step').click(add_step);
+    }
+
     function disable_button(button) {
         button.prop("disabled", true);
         button.css("background-color", "#cecece");
@@ -302,14 +319,27 @@
     // change the background color of .workflow-step if mouse hovers over them
     function delete_step(steps) {
         swal({
-            title: "Delete Step?",
+            title: 'Are you sure?',
+            text: "The selected step will be deleted!",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Delete'
         }).then(function () {
-            // get stepId of the step
+
+            var numberOfSteps = $(".workflow-step").length;
+            console.log("# of workflow steps b4 deleting: " + numberOfSteps);
+
+
+            if (numberOfSteps <= 1) {
+                swal({
+                    title: "Cannot have a workflow with no steps!",
+                    type: 'warning',
+
+                })
+            } else {
+                 // get stepId of the step
             // var length = steps.children.length;
             var stepId = steps.attr('value');
             console.log("workflow-step Id: " + stepId);
@@ -337,12 +367,12 @@
                 xhttp.onreadystatechange = function () {
                     // now time to remove the reviewer
                     // console.log("ready state: " + xhttp.readyState);
-                    
+
                     if (this.readyState == 4 && this.status == 200) {
                         // readyState == 4 means request finished and response is ready -> "reviewer deleted"
                         // status == 200 means "OK"
                         console.log('success');
-                            
+
                     }
 
                 }
@@ -357,16 +387,34 @@
             console.log("delete step URL: " + deleteStepUrl);
             xhttp.open("POST", deleteStepUrl, true);
             xhttp.send();
-            
 
-            swal({
-                title: "Deleted",
-                type: 'success',
-                showCancelButton: false
-            })
 
+            console.log("Extra");
+            console.log($(steps).next('.add-step glyphicon glyphicon-chevron-right'));
+            // remove the add button first
+            $(steps).next().remove();
+            // then remove step itself
             steps.remove();
-            
+
+
+            var numberOfSteps = $(".workflow-step").length;
+            console.log("# of workflow steps after deleting: " + numberOfSteps);
+
+            if (numberOfSteps <= 1) {
+                console.log("Last workflow step");
+            }
+
+
+            }
+
+
+
+
+
+            // three main problems:
+            // 1. if delete the last step, it will not be allowed to add a new step
+            // 2. steps must be saved to be removed, otherwise datbasse will give an error
+            // 3. currently overriding delete_reviewer()
         });
     }
 </script>

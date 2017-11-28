@@ -156,7 +156,7 @@ textarea {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    max-width: 97%%;
+    max-width: 97%;
     max-height: 81%;
     min-height: 310px;
     overflow: scroll;
@@ -176,20 +176,18 @@ textarea {
         display: table;
     }
 
-    #workflow-designer-window-edit .workflow-step:hover {
-        background-color: lightgray;
-    }
-
-#add-step-button {
+  
+.add-step {
     cursor: pointer;
     font-size: 50px;
     color: #cccccc;
     margin-top: 100px;
     margin-left: 15px;
 }
-        #add-step-button:hover {
-            color: #5697ff;
-        }
+
+    .add-step:hover {
+        color: #5697ff;
+    }
 
     
 
