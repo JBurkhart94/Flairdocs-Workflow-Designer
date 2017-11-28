@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Flairdocs_Workflow_Designer.Models;
 using System.Data.Entity;
+using Newtonsoft.Json;
 
 namespace Flairdocs_Workflow_Designer.Controllers
 {
@@ -184,15 +185,27 @@ namespace Flairdocs_Workflow_Designer.Controllers
             return titles;
         }
         
-        [HttpGet]
-        private Reviewer GetReviewer(Guid reviewerId)
+        [HttpPost]
+        public String GetReviewer(Guid reviewerId)
         {
-            Reviewer reviewer = db.Reviewers.Find(reviewerId);
-            if (reviewer == null)
+            Reviewer reviewer;
+            dynamic jsonResult;
+            if (!(reviewerId == Guid.Empty))
             {
-                Console.Write("The reviewer is not yet saved. Returning Null");
+                reviewer = db.Reviewers.Find(reviewerId);
+                reviewer.StepId = Guid.Empty;
+                jsonResult = JsonConvert.SerializeObject(reviewer, Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
             }
-            return reviewer;
+            else
+            {
+                reviewer = null;
+                jsonResult = null;
+            }
+            return jsonResult;
         }
     }
 }

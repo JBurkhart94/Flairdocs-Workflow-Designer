@@ -160,7 +160,7 @@
         $('.reviewer-list').droppable({
             accept: '#add-reviewer-button',
             drop: function (event, ui) {
-                $(this).append('<li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li>')
+                $(this).append('<li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button><span>Admin</span></li>')
                     .promise().done(function () {
                         $('.remove-reviewer-button').click(function () { remove_reviewer($(this.parentElement)); });
                     });
@@ -183,7 +183,7 @@
         //Make the drag-to-add reviewer draggable
         $('#add-reviewer-button').draggable({
             helper: function () {
-                return $('<li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li>');
+                return $('<li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button><span>Admin</span></li>');
             }
         });
         setup_drag_and_drop();
@@ -237,7 +237,9 @@
                     step.find('li').each(function (reviewer_index) {
                         var reviewer = $(this);
                         var xhttp_reviewer = new XMLHttpRequest();
-                        xhttp_reviewer.open("POST", '@Url.Action("SaveReviewer", "Home")?stepId=' + stepId + "&reviewerId=" + reviewer.attr('value') + "&order=" + reviewer_index, true);
+                        var reviewer_role = reviewer.children().eq(1).text();
+                        console.log(reviewer_role);
+                        xhttp_reviewer.open("POST", '@Url.Action("SaveReviewer", "Home")?stepId=' + stepId + "&reviewerId=" + reviewer.attr('value') + "&order=" + reviewer_index + "&role=" + reviewer_role, true);
                         xhttp_reviewer.send();
                         xhttp_reviewer.onreadystatechange = function () {
                             if (xhttp_reviewer.readyState == 4 && xhttp_reviewer.status == 200) {
@@ -308,21 +310,21 @@
 
     function display_reviewer(el) {
         $("#slider").empty();
-        var id = el.attr("value");
         var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", '@Url.Action("GetReviewer", "Home")?reviewerId=' + id, true);
+        xhttp.open("POST", '@Url.Action("GetReviewer", "Home")?reviewerId=' + el.attr("value") , true);
         xhttp.send();
         xhttp.onreadystatechange = function () {
-            var reviewer = xhttp.response;
-            console.log("Reviewer is null: " + (reviewer == null));
-            console.log("Reviewer Id: " + reviewer.Id)
-            if (reviewer.Id != null) {
-                code = '<h1>Reviewer Information</h1><div>ID: ' + reviewer.Id + '</div><div>Role: ' + reviewer.Role + '</div>';
-                $("#slider").html(code);
-            }
-            else {
-                code = '<h1>Reviewer Information</h1><div>ID: Not yet assigned</div><div>Role: ' + reviewer.Role + '</div>';
-                $("#slider").html(code);
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                var reviewerInfo = xhttp.responseText;
+                var reviewer = JSON.parse(reviewerInfo);
+                if (reviewer.Id != null) {
+                    code = '<h1>Reviewer Information</h1><div>ID:   ' + reviewer.Id + '</div><div>Role:   ' + reviewer.Role + '</div><div>  Creation Date:   ' + reviewer.Creation_Date + '</div>';
+                    $("#slider").html(code);
+                }
+                else {
+                    code = '<h1>Reviewer Information</h1><div>ID: Not yet assigned</div><div>Role: ' + reviewer.Role + '</div>';
+                    $("#slider").html(code);
+                }
             }
         }
     }
