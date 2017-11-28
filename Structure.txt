@@ -1,0 +1,37 @@
+MODEL
+Relationships
+	1:n workflow-step
+	1:n step-reviewer
+	1:1 reviewer-attributes
+	1:n workflow-transitions £¨Not used right now£©
+
+Important attributes
+	workflow
+		Id
+		Title
+		Description
+	step
+		Id
+		WorkflowId
+		Order
+	Reviewers
+		Id
+		StepId
+		Order
+View
+
+Controller
+
+
+
+http://localhost:52956/Home/Workflow?id=90e508f9-256a-417a-ab91-08293da58608
+1. change the content color when hover over it (CSS)
+2. click: prompt if you want to delete (JS: swal)
+	3. if yes
+		a. delete all reviewers (Key: get reviewerId and StepId)
+			find each reviewerId
+			send http request to controller, then delete
+			refresh page
+			see reviewers deleted			
+	
+

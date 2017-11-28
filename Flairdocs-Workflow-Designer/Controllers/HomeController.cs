@@ -157,6 +157,61 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
+        // remove the step
+        public void RemoveStep(Guid stepId) {
+            // find the step
+            Step step = db.Steps.Find(stepId);
+            if (step != null) {
+                // step # to be removed
+                int stepNumToBeRemoved = step.Order;
+                // then find the workflow it belongs to
+                Guid workflowId = step.WorkflowId;
+                // all steps in the step table that belongs to the workflow
+                // delete the step
+                // db.Steps.Remove(step);
+                var setOfSteps = from w in db.Steps
+                                 where w.WorkflowId == workflowId
+                                 select w;
+
+                foreach (Step temp in setOfSteps)
+                {
+                    Guid sId = temp.Id;
+                    if (temp.Order > stepNumToBeRemoved)
+                    {
+                        db.Steps.Find(sId).Order -= 1;
+                    }
+
+                }
+                db.Steps.Remove(step);
+                db.SaveChanges();
+            }
+
+            /* code that doesn't work: I still don't understand why
+             *  
+            if (setOfSteps.ElementAt(i).Order > stepNumToBeRemoved) {
+                        setOfSteps.ElementAt(i).Order -= 1;
+                    }
+
+
+
+            if (setOfSteps.Count() > 0) {
+                System.Diagnostics.Debug.WriteLine("number of steps: " + setOfSteps.Count());
+                setOfSteps.Select(x => x.Order);
+                // # of steps in the workflow > 0
+               
+
+                for (int i = stepNumToBeRemoved + 1; i < setOfSteps.Count(); i++) {
+                    setOfSteps.Select(x => x.Order);
+                    System.Diagnostics.Debug.WriteLine("almost there !!! + " );
+
+
+                }
+            }
+             
+             */
+
+        }
+
         //Check if a workflow exists with the given name
         public Boolean TitleExists(String title)
         {

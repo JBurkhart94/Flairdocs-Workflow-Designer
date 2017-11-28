@@ -156,7 +156,7 @@ textarea {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    max-width: 97%%;
+    max-width: 97%;
     max-height: 81%;
     min-height: 310px;
     overflow: scroll;
@@ -176,6 +176,7 @@ textarea {
         display: table;
     }
 
+  
 .add-step {
     cursor: pointer;
     font-size: 50px;
