@@ -52,6 +52,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
             return null;
         }
 
+        [HttpPost]
         public Guid? Create(String title, String description)
         {
             if (!TitleExists(title))
@@ -113,7 +114,14 @@ namespace Flairdocs_Workflow_Designer.Controllers
 
             db.SaveChanges();
 
-            return step.Id;
+            if(step != null)
+            {
+                return step.Id;
+            }
+            else
+            {
+                return Guid.Empty;
+            }
         }
 
         [HttpPost]
@@ -144,7 +152,14 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
             db.SaveChanges();
 
-            return reviewer.Id;
+            if(reviewer != null)
+            {
+                return reviewer.Id;
+            }
+            else
+            {
+                return Guid.Empty;
+            }
         }
 
         public void RemoveReviewer(Guid reviewerId)
@@ -162,54 +177,24 @@ namespace Flairdocs_Workflow_Designer.Controllers
             // find the step
             Step step = db.Steps.Find(stepId);
             if (step != null) {
-                // step # to be removed
-                int stepNumToBeRemoved = step.Order;
-                // then find the workflow it belongs to
-                Guid workflowId = step.WorkflowId;
-                // all steps in the step table that belongs to the workflow
-                // delete the step
-                // db.Steps.Remove(step);
-                var setOfSteps = from w in db.Steps
-                                 where w.WorkflowId == workflowId
-                                 select w;
+                //Query all reviewers associated with the step to be deleted
+                IQueryable<Reviewer> query = from r in db.Reviewers
+                                                 where r.StepId == stepId
+                                                 select r;
 
-                foreach (Step temp in setOfSteps)
+                //Convert to a list, otherwise we cannot properly iterate and remove with foreach
+                IList<Reviewer> reviewers = query.ToList();
+
+                //Delete each reviewer associated with the step
+                foreach(Reviewer reviewer in reviewers)
                 {
-                    Guid sId = temp.Id;
-                    if (temp.Order > stepNumToBeRemoved)
-                    {
-                        db.Steps.Find(sId).Order -= 1;
-                    }
-
+                    RemoveReviewer(reviewer.Id);
                 }
+
+                //Remove the step and save changes
                 db.Steps.Remove(step);
                 db.SaveChanges();
             }
-
-            /* code that doesn't work: I still don't understand why
-             *  
-            if (setOfSteps.ElementAt(i).Order > stepNumToBeRemoved) {
-                        setOfSteps.ElementAt(i).Order -= 1;
-                    }
-
-
-
-            if (setOfSteps.Count() > 0) {
-                System.Diagnostics.Debug.WriteLine("number of steps: " + setOfSteps.Count());
-                setOfSteps.Select(x => x.Order);
-                // # of steps in the workflow > 0
-               
-
-                for (int i = stepNumToBeRemoved + 1; i < setOfSteps.Count(); i++) {
-                    setOfSteps.Select(x => x.Order);
-                    System.Diagnostics.Debug.WriteLine("almost there !!! + " );
-
-
-                }
-            }
-             
-             */
-
         }
 
         //Check if a workflow exists with the given name

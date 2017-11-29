@@ -39,9 +39,9 @@
                         if (Model.Steps.Count() == 0)
                         {
                             <div class="workflow-step" value="00000000-0000-0000-0000-000000000000">
-                                <button class="delete-step-button">X</button>
+                                <button class="remove-step-button">X</button>
                                 <ul class="reviewer-list ui-sortable">
-                                    <li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li>
+                                    <li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button><span>Admin</span></li>
                                 </ul>
                             </div>
                             <div class="add-step glyphicon glyphicon-chevron-right"></div>
@@ -51,10 +51,10 @@
                             foreach (var step in Model.Steps)
                             {
                                 <div class="workflow-step" value="@step.Id">
-                                    <button class="delete-step-button">X</button>
+                                    <button class="remove-step-button">X</button>
                                     <ul class="reviewer-list ui-sortable">
                                         @foreach(var reviewer in step.Reviewers){
-                                            <li class="reviewer" value="@reviewer.Id"><button type="button" class="remove-reviewer-button">X</button>@reviewer.Role</li>
+                                            <li class="reviewer" value="@reviewer.Id"><button type="button" class="remove-reviewer-button">X</button><span>@reviewer.Role</span></li>
                                         }
                                     </ul>
                                 </div>
@@ -80,87 +80,13 @@
     </div>
 </div>
 
-<style>
-    html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-    }
-
-    #borderContainer {
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-    }
-
-    #workflow-description {
-        width: 170px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 15px;
-        max-height: 100px;
-        overflow: auto;
-        font-weight: 100;
-    }
-
-    .reviewer-list{
-        padding: 0px;
-        margin-left: 1px;
-        min-width: inherit;
-        max-width: inherit;
-        min-height: inherit;
-        text-decoration: none;
-    }
-
-        .reviewer {
-            line-height: 1.7;
-            word-wrap: break-word;
-            text-align: center;
-            min-width: 200px;
-            max-width: 200px;
-            min-height: 60px;
-            border-radius: 15px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 6px;
-            padding-right: 6px;
-            padding-bottom: 14px;
-            margin-top: 8px;
-            background-color: #5697ff;
-            color: white;
-            list-style-type: none;
-        }
-
-        .reviewer:hover {
-            cursor: move;
-        }
-
-    .remove-reviewer-button {
-        display: block;
-        margin-left: 169px;
-        background-color: #5697ff;
-        color: white;
-        border-radius: 15px;
-        border: none;
-    }
-
-    .remove-reviewer-button:active{
-        color: grey;
-    }
-
-    .delete-step-button {
-        border: none;
-        background-color: white;
-        color: #5697ff;
-    }
-</style>
-
 <!--Add shared scripts of workflow here-->>
 @Html.Partial("WorkflowScriptCommon")
 
 <script>
     //Number of steps used for auto-scrolling feature
-    var steps = @Model.Steps.Count();
+    var stepCount = @Model.Steps.Count() == 0 ? 1 : @Model.Steps.Count();
+
 
     //Keep track of the amount of saves for enabling/disabling the save button
     var numOfSavesInProgress = 0;
@@ -178,16 +104,14 @@
                 $('.reviewer').click(function () { display_reviewer($(this)); });
             }
         });
+        //Display reviewer information when clicked
+        $('.reviewer').click(function () { display_reviewer($(this)); });
         $('.reviewer-list').sortable({
             connectWith: '.reviewer-list',
         });
         $('.remove-reviewer-button').click(function () { remove_reviewer($(this.parentElement)); });
-        $('.delete-step-button').click(function () {
-           
-            delete_step($(this.parentElement));
-            console.log(this);
-            console.log($(this));
-            console.log($(this.parentElement));
+        $('.remove-step-button').click(function () {
+            remove_step($(this.parentElement));
         });
     }
     //Set up JavaScript event handlers
@@ -203,29 +127,7 @@
             }
         });
         setup_drag_and_drop();
-        //Display reviewer information when clicked
-        $('.reviewer').click(function () { display_reviewer($(this)); });
     });
-
-    function remove_reviewer(el){
-        swal({
-            title: 'Are you sure?',
-            text: "The selected reviewer will be deleted!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then(function () {
-            //console.log(el.attr('value'));
-            xhttp = new XMLHttpRequest();
-            xhttp.open("POST", '@Url.Action("RemoveReviewer", "Home")?reviewerId=' + el.attr('value'), true)
-            xhttp.send();
-            xhttp.onreadystatechange = function () {
-                el.remove();
-            }
-        })
-    }
 
     /*
         Function to save the current workflow.  The method will use AJAX to save the current state of the workflow.  During the
@@ -255,7 +157,7 @@
                         var xhttp_reviewer = new XMLHttpRequest();
                         var reviewer_role = reviewer.children().eq(1).text();
                         console.log(reviewer_role);
-                        xhttp_reviewer.open("POST", '@Url.Action("SaveReviewer", "Home")?stepId=' + stepId + "&reviewerId=" + reviewer.attr('value') + "&order=" + reviewer_index + "&role=" + reviewer_role, true);
+                        xhttp_reviewer.open("POST", '@Url.Action("SaveReviewer", "Home")?stepId=' + stepId + "&reviewerId=" + $(this).attr('value') + "&order=" + reviewer_index + "&role=" + $(this).children().eq(1).text(), true);
                         xhttp_reviewer.send();
                         xhttp_reviewer.onreadystatechange = function () {
                             if (xhttp_reviewer.readyState == 4 && xhttp_reviewer.status == 200) {
@@ -272,7 +174,82 @@
                 }
             }
         });
-        //window.location.reload();
+    }
+
+    function remove_step(step) {
+        swal({
+            title: 'Are you sure?',
+            text: "The selected step will be deleted!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete'
+        }).then(function () {
+
+            if (stepCount <= 1) {
+                swal({
+                    title: "Workflow must have at least one step!",
+                    type: 'warning',
+
+                });
+            } else {
+                // now time to remove the step itself
+                xhttp = new XMLHttpRequest();
+                xhttp.open("POST", '@Url.Action("RemoveStep", "Home")?stepId=' + step.attr('value'), true);
+                xhttp.send();
+
+                // remove the add button first
+                step.next().remove();
+                // then remove step itself
+                step.remove();
+
+                stepCount--;
+            }
+        });
+    }
+
+    function remove_reviewer(el){
+        swal({
+            title: 'Are you sure?',
+            text: "The selected reviewer will be deleted!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function () {
+            //console.log(el.attr('value'));
+            xhttp = new XMLHttpRequest();
+            xhttp.open("POST", '@Url.Action("RemoveReviewer", "Home")?reviewerId=' + el.attr('value'), true)
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                el.remove();
+            }
+        })
+    }
+
+    function display_reviewer(el) {
+        if (el.attr('value') != '00000000-0000-0000-0000-000000000000') {
+            $("#slider").empty();
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", '@Url.Action("GetReviewer", "Home")?reviewerId=' + el.attr("value"), true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    var reviewerInfo = xhttp.responseText;
+                    var reviewer = JSON.parse(reviewerInfo);
+                    if (reviewer.Id != null) {
+                        code = '<h1>Reviewer Information</h1><div>ID:   ' + reviewer.Id + '</div><div>Role:   ' + reviewer.Role + '</div><div>  Creation Date:   ' + reviewer.Creation_Date + '</div>';
+                        $("#slider").html(code);
+                    }
+                    else {
+                        code = '<h1>Reviewer Information</h1><div>ID: Not yet assigned</div><div>Role: ' + reviewer.Role + '</div>';
+                        $("#slider").html(code);
+                    }
+                }
+            }
+        }
     }
 
     /*
@@ -281,9 +258,9 @@
     */
     function add_step(e) {
         //Update number of steps
-        steps += 1;
+        stepCount += 1;
         //Create new step with Empty GUID value.
-        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><button class="delete-step-button">X</button><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button>Admin</li></ul></div ><div class="add-step glyphicon glyphicon-chevron-right"></div>';
+        var code = '<div class="workflow-step" value="00000000-0000-0000-0000-000000000000"><button class="remove-step-button">X</button><ul class="reviewer-list"><li class="reviewer" value="00000000-0000-0000-0000-000000000000"><button type="button" class="remove-reviewer-button">X</button><span>Admin</span></li></ul></div ><div class="add-step glyphicon glyphicon-chevron-right"></div>';
 
         //Insert this new step before the add step button
         $(code).insertAfter(this);
@@ -323,128 +300,5 @@
     function enable_button(button) {
         button.prop("disabled", false);
         button.css("background-color", "#5697ff");
-    }
-
-    function display_reviewer(el) {
-        $("#slider").empty();
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("POST", '@Url.Action("GetReviewer", "Home")?reviewerId=' + el.attr("value") , true);
-        xhttp.send();
-        xhttp.onreadystatechange = function () {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                var reviewerInfo = xhttp.responseText;
-                var reviewer = JSON.parse(reviewerInfo);
-                if (reviewer.Id != null) {
-                    code = '<h1>Reviewer Information</h1><div>ID:   ' + reviewer.Id + '</div><div>Role:   ' + reviewer.Role + '</div><div>  Creation Date:   ' + reviewer.Creation_Date + '</div>';
-                    $("#slider").html(code);
-                }
-                else {
-                    code = '<h1>Reviewer Information</h1><div>ID: Not yet assigned</div><div>Role: ' + reviewer.Role + '</div>';
-                    $("#slider").html(code);
-                }
-            }
-        }
-    }
-
-    // change the background color of .workflow-step if mouse hovers over them
-    function delete_step(steps) {
-        swal({
-            title: 'Are you sure?',
-            text: "The selected step will be deleted!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Delete'
-        }).then(function () {
-
-            var numberOfSteps = $(".workflow-step").length;
-            console.log("# of workflow steps b4 deleting: " + numberOfSteps);
-
-
-            if (numberOfSteps <= 1) {
-                swal({
-                    title: "Cannot have a workflow with no steps!",
-                    type: 'warning',
-
-                })
-            } else {
-                 // get stepId of the step
-            // var length = steps.children.length;
-            var stepId = steps.attr('value');
-            console.log("workflow-step Id: " + stepId);
-            var query = "[value ='" + stepId + "' ]";
-            var numOfChildren = $(query).children().children().length;
-            var setOfReviewers = $(query).children().children();
-            console.log("numberOfReviewers in this step: " + numOfChildren);
-            //console.log($(steps).children().length;);
-
-            //steps.remove();
-            for (i = 0; i < numOfChildren; i++) {
-                var reviewerId = setOfReviewers[i].getAttribute('value');
-                console.log("reviewer Id: " + reviewerId);
-                // start deleting reviewers
-                // create a new request
-                xhttp = new XMLHttpRequest();
-                // send asynchronous POST REQUEST
-
-                var url = '@Url.Action("RemoveReviewer", "Home")?reviewerId=' + reviewerId;
-                console.log("POST URL: " + url);
-                xhttp.open("POST", url, true);
-                xhttp.send();
-                // this here refers to window
-                //console.log(this);
-                xhttp.onreadystatechange = function () {
-                    // now time to remove the reviewer
-                    // console.log("ready state: " + xhttp.readyState);
-
-                    if (this.readyState == 4 && this.status == 200) {
-                        // readyState == 4 means request finished and response is ready -> "reviewer deleted"
-                        // status == 200 means "OK"
-                        console.log('success');
-
-                    }
-
-                }
-            }
-
-            // delete all reviewers
-            setOfReviewers.remove();
-
-            // now time to remove the step itself
-            xhttp = new XMLHttpRequest();
-            var deleteStepUrl = '@Url.Action("RemoveStep", "Home")?stepId=' + stepId;
-            console.log("delete step URL: " + deleteStepUrl);
-            xhttp.open("POST", deleteStepUrl, true);
-            xhttp.send();
-
-
-            console.log("Extra");
-            console.log($(steps).next('.add-step glyphicon glyphicon-chevron-right'));
-            // remove the add button first
-            $(steps).next().remove();
-            // then remove step itself
-            steps.remove();
-
-
-            var numberOfSteps = $(".workflow-step").length;
-            console.log("# of workflow steps after deleting: " + numberOfSteps);
-
-            if (numberOfSteps <= 1) {
-                console.log("Last workflow step");
-            }
-
-
-            }
-
-
-
-
-
-            // three main problems:
-            // 1. if delete the last step, it will not be allowed to add a new step
-            // 2. steps must be saved to be removed, otherwise datbasse will give an error
-            // 3. currently overriding delete_reviewer()
-        });
     }
 </script>

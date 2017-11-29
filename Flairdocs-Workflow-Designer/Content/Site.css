@@ -210,3 +210,76 @@ button span {
 #add-reviewer-button span {
     margin-right: 8px;
 }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+#borderContainer {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+#workflow-description {
+    width: 170px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    max-height: 100px;
+    overflow: auto;
+    font-weight: 100;
+}
+
+.reviewer-list {
+    padding: 0px;
+    margin-left: 1px;
+    min-width: inherit;
+    max-width: inherit;
+    min-height: inherit;
+    text-decoration: none;
+}
+
+.reviewer {
+    line-height: 1.7;
+    word-wrap: break-word;
+    text-align: center;
+    min-width: 200px;
+    max-width: 200px;
+    min-height: 60px;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-bottom: 14px;
+    margin-top: 8px;
+    background-color: #5697ff;
+    color: white;
+    list-style-type: none;
+}
+
+    .reviewer:hover {
+        cursor: move;
+    }
+
+.remove-reviewer-button {
+    display: block;
+    margin-left: 169px;
+    background-color: #5697ff;
+    color: white;
+    border-radius: 15px;
+    border: none;
+}
+
+    .remove-reviewer-button:active {
+        color: grey;
+    }
+
+.remove-step-button {
+    border: none;
+    background-color: white;
+    color: #5697ff;
+}
