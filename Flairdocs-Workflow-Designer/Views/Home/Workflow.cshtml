@@ -92,6 +92,8 @@
     var numOfSavesInProgress = 0;
     var inProgress = false;
 
+    //Since Drag and drop of the reviewer is a function declared via JQuery it needs to be declared again each time a new element is added.
+    //If a new step is added, the list inside of it needs to be set up to accept reviewers if they are dragged onto it
     function setup_drag_and_drop() {
         $('.reviewer-list').droppable({
             accept: '#add-reviewer-button',
@@ -114,7 +116,9 @@
             remove_step($(this.parentElement));
         });
     }
+
     //Set up JavaScript event handlers
+    //Run at the launch of the page to ensure that all of the buttons are set up to perform their functions
     $(document).ready(function () {
         //Create a workflow step
         $('.add-step').click(add_step);
@@ -176,6 +180,10 @@
         });
     }
 
+    /*
+        Function called when the X button on a step is clicked. The Step is deleted from the web page and the corresponding information
+        is deleted from the database. You cannot delete the only step of a workflow
+    */
     function remove_step(step) {
         swal({
             title: 'Are you sure?',
@@ -209,6 +217,10 @@
         });
     }
 
+    /*
+        Function that is called when the X button on a reviewer is clicked. Removes the reviewer from the web page and
+        deletes the corresponding information from the database.
+    */
     function remove_reviewer(el){
         swal({
             title: 'Are you sure?',
@@ -229,6 +241,10 @@
         })
     }
 
+    /*
+        Function that reads a reviewer ID from the HTML element, gets the corresponding reviewer information from the
+        database and populates the DOJO panel with that data.
+    */
     function display_reviewer(el) {
         if (el.attr('value') != '00000000-0000-0000-0000-000000000000') {
             $("#slider").empty();
@@ -292,11 +308,18 @@
        $('.add-step').click(add_step);
     }
 
+    /*
+        Function disables the button passed to it so that it cannot be clicked and has a visual change.
+        Currently used for the save button so simultaneous save requests can not be made.
+    */
     function disable_button(button) {
         button.prop("disabled", true);
         button.css("background-color", "#cecece");
     }
 
+    /*
+        Re-enables the button passed to it when it finished completing its task.
+    */
     function enable_button(button) {
         button.prop("disabled", false);
         button.css("background-color", "#5697ff");
