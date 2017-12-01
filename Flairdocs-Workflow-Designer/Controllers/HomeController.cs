@@ -218,6 +218,11 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
+
+        // this method will return all titles in the workflow table 
+        // This list of string will be passed to front-end, at the initialization of webpage
+        // searching for workflow could be done locally then
+        // Every time a new workflow is added, local string will be updated correspondingly
         private List<string> GetTitles()
         {
             DbSet<Workflow> workflows = db.Workflows;
