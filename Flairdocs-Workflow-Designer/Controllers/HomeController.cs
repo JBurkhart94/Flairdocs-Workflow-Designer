@@ -14,13 +14,6 @@ namespace Flairdocs_Workflow_Designer.Controllers
         // WorkflowContext is the overall access to database
         WorkflowContext db = new WorkflowContext();
 
-        // render the page
-        public ActionResult DragNDrop()
-        {
-            return View();
-        }
-
-
         public ActionResult Index()
         {
             ViewBag.Title = "Workflow Designer";
@@ -33,14 +26,18 @@ namespace Flairdocs_Workflow_Designer.Controllers
         public ActionResult Workflow(Guid id)
         {
             Workflow workflow = db.Workflows.Find(id);
-            workflow.Steps = workflow.Steps.OrderBy(step => step.Order).ToList();
-            foreach (Step step in workflow.Steps)
+            if (workflow != null)
             {
-                step.Reviewers = db.Reviewers.Where(r => r.StepId == step.Id).OrderBy(r => r.Order).ToList();
+                workflow.Steps = workflow.Steps.OrderBy(step => step.Order).ToList();
+                foreach (Step step in workflow.Steps)
+                {
+                    step.Reviewers = db.Reviewers.Where(r => r.StepId == step.Id).OrderBy(r => r.Order).ToList();
+                }
+                ViewBag.Title = workflow.Title;
+                ViewBag.Titles = GetTitles();
+                return View(workflow);
             }
-            ViewBag.Title = workflow.Title;
-            ViewBag.Titles = GetTitles();
-            return View(workflow);
+            return null;
         }
 
         public Guid? WorkflowSearch(String title)

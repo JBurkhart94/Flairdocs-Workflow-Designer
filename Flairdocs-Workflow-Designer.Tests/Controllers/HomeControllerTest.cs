@@ -14,6 +14,8 @@ namespace Flairdocs_Workflow_Designer.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
+        WorkflowContext db = new WorkflowContext();
+
         [TestMethod]
         public void Index()
         {
@@ -28,12 +30,21 @@ namespace Flairdocs_Workflow_Designer.Tests.Controllers
         }
 
         [TestMethod]
-        public void TitleExists()
+        public void TitleExistsTrue()
         {
             Console.WriteLine("Workflow test");
             HomeController controller = new HomeController();
             Boolean result = controller.TitleExists("Test Workflow");
             Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void TitleExistsFalse()
+        {
+            Console.WriteLine("Workflow test");
+            HomeController controller = new HomeController();
+            Boolean result = controller.TitleExists("");
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
@@ -48,6 +59,17 @@ namespace Flairdocs_Workflow_Designer.Tests.Controllers
             HomeController controller = new HomeController();
             ViewResult result = controller.Workflow(id) as ViewResult;
             Assert.AreEqual("Test Workflow", result.ViewBag.Title);
+
+        }
+
+        [TestMethod]
+        public void WorkflowNotValid()
+        {
+
+            Guid id = Guid.Empty;
+            HomeController controller = new HomeController();
+            ViewResult result = controller.Workflow(id) as ViewResult;
+            Assert.IsNull(result);
 
         }
 
@@ -78,5 +100,32 @@ namespace Flairdocs_Workflow_Designer.Tests.Controllers
             Guid? result = controller.Create(title, des);
             Assert.IsNull(result);
         }
+
+        [TestMethod]
+        public void AddStep()
+        {
+            HomeController controller = new HomeController();
+            String title = "Test Workflow";
+            Guid? wId = controller.WorkflowSearch(title);
+            Workflow w = db.Workflows.Find(wId);
+            int stepCountBefore = w.Steps.Count();
+            Guid? stepAdded = controller.SaveStep(wId.Value, Guid.Parse("00000000-0000-0000-0000-000000000000"), stepCountBefore);
+
+            Assert.IsNotNull(stepAdded);
+        }
+
+        [TestMethod]
+        public void RemoveStep()
+        {
+            HomeController controller = new HomeController();
+            String title = "Test Workflow";
+            Guid? wId = controller.WorkflowSearch(title);
+            Workflow w = db.Workflows.Find(wId);
+            int stepCountBefore = w.Steps.Count();
+            Step stepToRemove = w.Steps.Last();
+            controller.RemoveStep(stepToRemove.Id);
+        }
+
+
     }
 }
