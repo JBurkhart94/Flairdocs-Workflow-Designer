@@ -11,21 +11,25 @@ namespace Flairdocs_Workflow_Designer.Controllers
 {
     public class HomeController : Controller
     {
-
+        // WorkflowContext is the overall access to database
         WorkflowContext db = new WorkflowContext();
 
+        // render the page
         public ActionResult DragNDrop()
         {
             return View();
         }
 
+
         public ActionResult Index()
         {
             ViewBag.Title = "Workflow Designer";
+            // GetTitles see below
             ViewBag.Titles = GetTitles();
             return View();
         }
 
+        //@param id Guid of the workflow
         public ActionResult Workflow(Guid id)
         {
             Workflow workflow = db.Workflows.Find(id);
@@ -184,7 +188,7 @@ namespace Flairdocs_Workflow_Designer.Controllers
 
                 //Convert to a list, otherwise we cannot properly iterate and remove with foreach
                 IList<Reviewer> reviewers = query.ToList();
-
+                
                 //Delete each reviewer associated with the step
                 foreach(Reviewer reviewer in reviewers)
                 {
