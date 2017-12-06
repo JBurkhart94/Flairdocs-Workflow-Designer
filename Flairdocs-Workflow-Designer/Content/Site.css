@@ -15,7 +15,9 @@ select,
 textarea {
     max-width: 280px;
 }
-
+/*
+    CSS for the flairdocs logo banner at the top
+*/
 #flairdocs-banner {
     margin-top: 0px;
     background-color: #5697ff;
@@ -24,6 +26,10 @@ textarea {
     padding: 13px;
 }
 
+/*
+    Div to wrap the workflow-designer-menu and workflow-designer-window. 
+    It sets up a flex layout as a row
+*/
 #workflow-designer-top-wrapper {
     display: flex;
     flex-direction: row;
@@ -38,6 +44,9 @@ textarea {
     padding: 2px;
 }
 
+/*
+    Menu to house the buttons and search bar
+*/
 #workflow-designer-menu {
     order: 0;
     padding-top: 12px;
@@ -67,35 +76,24 @@ textarea {
         background-color: white;
         outline: none;
     }
-
+        /*
+            When hovering a menu button
+        */
         #workflow-designer-menu button:hover {
             background-color: #e0e0e0;
         }
 
+        /*
+            When a menu button is physically clicked
+        */
         #workflow-designer-menu button:active {
             background: #bababa;
             padding: 10px;
         }
 
-    #workflow-designer-menu input:focus {
-        border: none;
-    }
-
-    #workflow-designer-menu input {
-        box-shadow: inset 0px 0px 3px 0px #333;
-        width: 190px;
-        border: none;
-        padding: 10px;
-        margin: 8px auto;
-        display: block;
-        text-align: left;
-        background-color: white;
-    }
-
-        #workflow-designer-menu input:focus {
-            outline-style: none;
-        }
-
+/*
+    A workflow menu that houses the worklow designer buttons as well as the workflow itself
+*/
 #workflow-designer-window {
     order: 1;
     flex-grow: 1;
@@ -105,9 +103,10 @@ textarea {
     border: 1px solid #333;
     margin-left: 12px;
 }
+
 /*
-        Elements below are children of the workflow-designer-window
-    */
+    CSS to show the workflow designer buttons (add-reviewer-button, save-workflow-button)
+*/
 #workflow-designer-window-buttons {
     display: flex;
     flex-wrap: nowrap;
@@ -116,13 +115,16 @@ textarea {
     height: 50px;
 }
 
+/*
+    Used for the add-reviewer-button
+*/
 #workflow-designer-window-buttons div{
     max-width: 300px;
     margin-right: 10px;
 }
 /*
-            These are button elements within the workflow-designer-window-buttons div
-        */
+   add-reviewer-button styling
+ */
 #add-reviewer-button {
     border: none;
     padding: 14px;
@@ -133,11 +135,16 @@ textarea {
     border-radius: 14px;
     text-align: center;
 }
-
+    /*
+        When hovering
+    */
     #add-reviewer-button:hover {
         cursor: move;
     }
 
+/*
+  save-workflow-button styling
+ */
 #save-workflow-button {
     float: right;
     border: none;
@@ -150,6 +157,9 @@ textarea {
     text-align: center;
 }
 
+/*
+    Styling for the portion of the workflow-designer-window that actually displays the workflow
+*/
 #workflow-designer-window-edit {
     margin-top: 10px;
     padding: 2px;
@@ -176,7 +186,10 @@ textarea {
         display: table;
     }
 
-  
+
+/*
+    Styling for the add-step button
+*/
 .add-step {
     cursor: pointer;
     font-size: 50px;
@@ -198,31 +211,41 @@ textarea {
     -moz-user-select: none;
 }
 
-input:focus::-webkit-input-placeholder {
-    color: transparent !important;
-}
-
-
+/*
+    Used for padding between glyphicons
+*/
 button span {
     margin-right: 8px;
 }
 
+/*
+    Used for padding between glyphicon in the add-reviewer-button
+*/
 #add-reviewer-button span {
     margin-right: 8px;
 }
 
+/*
+    Used for DOJO styling to work
+*/
 html, body {
     width: 100%;
     height: 100%;
     margin: 0;
 }
 
+/*
+    Dojo BorderContainer styling
+*/
 #borderContainer {
     width: 100%;
     height: 100%;
     overflow: auto;
 }
 
+/*
+    Styling for the workflow-description in the workflow-designer-menu
+*/
 #workflow-description {
     width: 170px;
     margin-left: auto;
@@ -233,6 +256,9 @@ html, body {
     font-weight: 100;
 }
 
+/*
+    Styling for the list of reviewers within a step
+*/
 .reviewer-list {
     padding: 0px;
     margin-left: 1px;
@@ -242,6 +268,9 @@ html, body {
     text-decoration: none;
 }
 
+/*
+    Styling for an individual reviewer in a reviewer-list
+*/
 .reviewer {
     line-height: 1.7;
     word-wrap: break-word;
@@ -265,6 +294,9 @@ html, body {
         cursor: move;
     }
 
+/*
+    Styling for the remove-reviewer-button
+*/
 .remove-reviewer-button {
     display: block;
     margin-left: 169px;
@@ -278,6 +310,9 @@ html, body {
         color: grey;
     }
 
+/*
+    Styling for the remove-step-button
+*/
 .remove-step-button {
     border: none;
     background-color: white;

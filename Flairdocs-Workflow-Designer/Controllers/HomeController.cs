@@ -14,6 +14,9 @@ namespace Flairdocs_Workflow_Designer.Controllers
         // WorkflowContext is the overall access to database
         WorkflowContext db = new WorkflowContext();
 
+        /*
+         * Returns the landing page of the workflow designer
+         * */
         public ActionResult Index()
         {
             ViewBag.Title = "Workflow Designer";
@@ -22,12 +25,17 @@ namespace Flairdocs_Workflow_Designer.Controllers
             return View();
         }
 
-        //@param id Guid of the workflow
+        /*
+         * Returns the view for an individual workflow instance.  This page is used to edit a workflow.
+         * */
+        //@param id: Guid of the workflow
         public ActionResult Workflow(Guid id)
         {
+            //Find the workflow
             Workflow workflow = db.Workflows.Find(id);
             if (workflow != null)
             {
+                //Order the steps and reviewers properly
                 workflow.Steps = workflow.Steps.OrderBy(step => step.Order).ToList();
                 foreach (Step step in workflow.Steps)
                 {
@@ -40,6 +48,10 @@ namespace Flairdocs_Workflow_Designer.Controllers
             return null;
         }
 
+        /*
+         * Returns the workflowId for a given workflow title.  Can be used to assist with searching.
+         * */
+         //@param title: Title of a workflow
         public Guid? WorkflowSearch(String title)
         {
             var workflow = from w in db.Workflows
@@ -52,7 +64,11 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
             return null;
         }
-
+        /*
+         * Method to create a new workflow within the database. The title should be unique.
+         * */
+         //@param title: A unique title for the new workflow
+         //@param description: A description of the workflow
         [HttpPost]
         public Guid? Create(String title, String description)
         {
@@ -85,6 +101,12 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
+        /*
+         * Method to save/update a particular step in a workflow.
+         * */
+         //@param workflowId: A valid workflowId to associate the step
+         //@param stepId: A valid stepId if it already exists, or the Empty Guid
+         //@param order: The order in which the step appears in the workflow
         [HttpPost]
         public Guid? SaveStep(Guid workflowId, Guid? stepId, int order)
         {
@@ -124,7 +146,12 @@ namespace Flairdocs_Workflow_Designer.Controllers
                 return Guid.Empty;
             }
         }
-
+        /*
+         * Method to save/update a particular reviewer in a workflow step.
+         * */
+        //@param stepId: A valid stepId to associate the reviewer
+        //@param reviewerId: A valid reviewerId if it already exists, or the Empty Guid
+        //@param order: The order in which the reviewer appears in the step
         [HttpPost]
         public Guid? SaveReviewer(Guid stepId, Guid? reviewerId, int order, String role)
         {
@@ -163,6 +190,10 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
+        /*
+         * Method to remove a reviewer from a workflow step.
+         * */
+         //@param reviewerId: A valid reviewerId of a reviewer to be removed.
         public void RemoveReviewer(Guid reviewerId)
         {
             Reviewer reviewer = db.Reviewers.Find(reviewerId);
@@ -173,7 +204,10 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
-        // remove the step
+        /*
+         * Method to remove a step from a workflow.  Consequently all reviewers within that step will also be removed.
+         * */
+        //@param stepId: A valid stepId of a step to be removed.
         public void RemoveStep(Guid stepId) {
             // find the step
             Step step = db.Steps.Find(stepId);
@@ -198,7 +232,10 @@ namespace Flairdocs_Workflow_Designer.Controllers
             }
         }
 
-        //Check if a workflow exists with the given name
+        /*
+         * Check if a title already exists for some workflow in the system.
+         * */
+         //@param title: A title to check if exists.
         public Boolean TitleExists(String title)
         {
             var exists = from w in db.Workflows
@@ -231,6 +268,10 @@ namespace Flairdocs_Workflow_Designer.Controllers
             return titles;
         }
         
+        /*
+         * Method to return a reviewer instance to the front end as a JSON Object.  Used for attribute extraction
+         * */
+         //@param reviewerId: A valid reviewerId for the reviewer to retrieve.
         [HttpPost]
         public String GetReviewer(Guid reviewerId)
         {
